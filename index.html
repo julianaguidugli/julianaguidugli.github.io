@@ -481,11 +481,71 @@ body.edit-mode .add-blog-btn { display:block; }
 }
 body.edit-mode .blog-card:hover .delete-card-btn { display:flex; }
 
+/* Read more link */
+.blog-read-more {
+  display:inline-block;
+  margin-top:12px;
+  font-size:.75rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--verde-escuro);
+  cursor:pointer;
+  font-weight:500;
+  transition:opacity .2s;
+}
+.blog-read-more:hover { opacity:.65; }
+body.edit-mode .blog-read-more { display:none; }
+
+/* Link row inside cards (edit mode only) */
+.card-link-row {
+  display:none;
+  align-items:center;
+  gap:8px;
+  margin-top:12px;
+  flex-wrap:wrap;
+}
+.card-link-label {
+  font-size:.68rem;
+  color:var(--verde-escuro);
+  letter-spacing:.05em;
+  white-space:nowrap;
+}
+.card-link-input {
+  flex:1;
+  min-width:0;
+  padding:6px 10px;
+  border:1px solid var(--bege);
+  border-radius:2px;
+  font-size:.78rem;
+  font-family:'Jost',sans-serif;
+  color:var(--texto);
+  background:white;
+}
+.card-link-input:focus { outline:1px solid var(--verde-escuro); }
+
 /* Image wrapper for edit */
 .img-wrapper { position:relative; display:block; }
 </style>
 </head>
 <body>
+
+<!-- ── MODAL ── -->
+<div id="modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(58,46,40,0.7);align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);">
+  <div style="background:var(--creme);max-width:720px;width:100%;max-height:90vh;border-radius:3px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,0.3);">
+    <div style="padding:28px 36px 20px;border-bottom:1px solid var(--bege);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+      <div>
+        <span class="modal-tag" style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--verde-escuro);font-family:'Jost',sans-serif;"></span>
+        <h2 class="modal-title" style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.3rem,3vw,2rem);font-weight:400;color:var(--marrom);margin-top:6px;line-height:1.25;"></h2>
+      </div>
+      <button onclick="closeModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--texto-suave);flex-shrink:0;padding:4px;line-height:1;">×</button>
+    </div>
+    <div class="modal-body-content" style="padding:28px 36px;overflow-y:auto;font-size:.95rem;line-height:1.85;color:var(--texto-suave);font-weight:300;font-family:'Jost',sans-serif;flex:1;"></div>
+    <div style="padding:16px 36px;border-top:1px solid var(--bege);display:flex;justify-content:flex-end;gap:12px;">
+      <button class="modal-edit-btn" style="display:none;align-items:center;gap:8px;padding:10px 20px;background:var(--verde-escuro);color:white;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;border-radius:1px;">✏️ Editar texto completo</button>
+      <button onclick="closeModal()" style="padding:10px 20px;border:1.5px solid var(--bege);background:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--texto-suave);border-radius:1px;">Fechar</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── EDIT TOGGLE ── -->
 <button id="edit-toggle" title="Editar site" aria-label="Ativar edição">✏️</button>
@@ -522,7 +582,7 @@ body.edit-mode .blog-card:hover .delete-card-btn { display:flex; }
 <section class="hero">
   <div style="max-width:1080px;margin:0 auto;">
     <div class="slider-intro">
-      <h1 data-editable="hero-title" contenteditable="false">Juliana Guidugli</h1>
+      <h1 data-editable="hero-title" contenteditable="false">Psicologia <em>Analítica</em><br>para uma vida mais autêntica</h1>
       <p data-editable="hero-sub" contenteditable="false">Psicóloga Junguiana · Moema, São Paulo</p>
     </div>
     <div class="slider-container" id="sliderContainer">
@@ -530,9 +590,7 @@ body.edit-mode .blog-card:hover .delete-card-btn { display:flex; }
 
         <div class="slide slide-0">
           <div class="slide-visual">
-            <div class="slide-visual-icon">
-                    <img src="foto_perfil.jpeg" alt="Ícone de Folha" class="imagem-icone">
-            </div>
+            <div class="slide-visual-icon">🌿</div>
             <div class="slide-visual-number">01</div>
             <div class="slide-visual-label">Trajetória</div>
           </div>
