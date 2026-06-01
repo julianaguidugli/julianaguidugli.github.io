@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juliana Guidugli — Psicologia Clínica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --creme: #F5EFE4;
+  --bege: #E8DCC8;
+  --terracota: #C4956A;
+  --verde: #7A9E8E;
+  --verde-escuro: #4A7265;
+  --lilas: #B8A9C9;
+  --lilas-suave: #EDE5F5;
+  --marrom: #5C4033;
+  --texto: #3A2E28;
+  --texto-suave: #7A6A5E;
+  --edit-color: #4A7265;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--creme);color:var(--texto);overflow-x:hidden;}
+
+/* ── EDIT MODE ── */
+body.edit-mode [data-editable]:hover {
+  outline: 2px dashed var(--edit-color);
+  outline-offset: 3px;
+  cursor: text;
+  border-radius: 2px;
+}
+body.edit-mode [data-editable]:focus {
+  outline: 2px solid var(--edit-color);
+  outline-offset: 3px;
+  background: rgba(74,114,101,0.06);
+  border-radius: 2px;
+}
+body.edit-mode [data-img-editable]:hover {
+  outline: 2px dashed var(--terracota);
+  outline-offset: 3px;
+  cursor: pointer;
+  border-radius: 4px;
+  position: relative;
+}
+.img-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(74,114,101,0.55);
+  color: white;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  z-index: 10;
+  font-family: 'Jost', sans-serif;
+}
+body.edit-mode [data-img-editable]:hover .img-overlay { display: flex; }
+
+/* Edit toolbar */
+#edit-toolbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: var(--marrom);
+  color: white;
+  border-radius: 40px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  font-family: 'Jost', sans-serif;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+#edit-toolbar.hidden { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(20px); }
+#edit-toolbar .dot { width: 8px; height: 8px; border-radius: 50%; background: #f0c060; }
+#edit-toolbar span { opacity: 0.7; }
+#edit-toolbar button {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.75rem;
+  transition: background 0.2s;
+}
+#edit-toolbar button:hover { background: rgba(255,255,255,0.28); }
+#edit-toolbar button.save-btn { background: var(--verde-escuro); }
+
+/* Edit toggle button */
+#edit-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9998;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--marrom);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transition: all 0.3s;
+  font-size: 1.1rem;
+}
+#edit-toggle:hover { transform: scale(1.1); }
+#edit-toggle.active { background: var(--verde-escuro); }
+
+/* ── HEADER ── */
+header {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  background: rgba(245,239,228,0.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--bege);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 4vw;
+  height: 64px;
+}
+.header-nome {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 3vw, 1.45rem);
+  font-weight: 400;
+  color: var(--marrom);
+  line-height: 1.15;
+}
+.header-nome span {
+  display: block;
+  font-size: clamp(0.55rem, 1.5vw, 0.68rem);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--verde-escuro);
+  margin-top: 2px;
+}
+.header-icons { display: flex; align-items: center; gap: 10px; }
+.header-icons a {
+  display: flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid var(--bege);
+  color: var(--verde-escuro);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.header-icons a:hover { background: var(--verde-escuro); border-color: var(--verde-escuro); color: white; transform: scale(1.08); }
+.header-icons svg { width: 19px; height: 19px; }
+
+/* ── HERO ── */
+.hero {
+  margin-top: 64px;
+  padding: clamp(32px, 6vw, 72px) 4vw clamp(40px, 7vw, 80px);
+  background: linear-gradient(150deg, var(--creme) 0%, #EDE4D3 55%, var(--lilas-suave) 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content:''; position:absolute; top:-80px; right:-80px;
+  width:360px; height:360px; border-radius:50%;
+  background: radial-gradient(circle, rgba(184,169,201,0.22) 0%, transparent 70%);
+  pointer-events:none;
+}
+.slider-intro {
+  text-align: center;
+  margin-bottom: clamp(28px, 5vw, 52px);
+}
+.slider-intro h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 6.5vw, 4.2rem);
+  font-weight: 300;
+  color: var(--marrom);
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.slider-intro h1 em { font-style: italic; color: var(--verde-escuro); }
+.slider-intro p {
+  font-size: clamp(0.7rem, 2vw, 0.88rem);
+  font-weight: 300; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--texto-suave);
+}
+
+/* ── SLIDER ── */
+.slider-container { position: relative; overflow: hidden; touch-action: pan-y; }
+.slider-track { display: flex; transition: transform 0.55s cubic-bezier(0.77,0,0.175,1); }
+.slide {
+  min-width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(58,46,40,0.13);
+  min-height: clamp(260px, 40vw, 400px);
+}
+@media(max-width:600px){
+  .slide { grid-template-columns: 1fr; min-height: auto; }
+  .slide-visual { min-height: 140px; padding: 28px 24px; }
+  .slide-visual-number { font-size: 4.5rem; }
+}
+.slide-visual {
+  position: relative; display: flex;
+  align-items: center; justify-content: center;
+  padding: clamp(32px,5vw,56px) clamp(24px,4vw,40px);
+  overflow: hidden;
+}
+.slide-0 .slide-visual{background:linear-gradient(135deg,#7A9E8E,#4A7265);}
+.slide-1 .slide-visual{background:linear-gradient(135deg,#B8A9C9,#8B7BAB);}
+.slide-2 .slide-visual{background:linear-gradient(135deg,#C4956A,#A0724A);}
+.slide-3 .slide-visual{background:linear-gradient(135deg,#8BA87A,#5C7A4E);}
+.slide-visual-number {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(5rem,10vw,8rem);
+  font-weight:300; color:rgba(255,255,255,0.14);
+  position:absolute; bottom:-16px; right:16px;
+  line-height:1; pointer-events:none;
+}
+.slide-visual-icon { font-size: clamp(2.2rem,5vw,3.8rem); opacity:.9; position:relative; z-index:1; }
+.slide-visual-label {
+  position:absolute; bottom:20px; left:22px;
+  font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
+  color:rgba(255,255,255,0.65); font-weight:400;
+}
+.slide-content {
+  background:white;
+  padding: clamp(24px,4vw,48px) clamp(20px,4vw,44px);
+  display:flex; flex-direction:column; justify-content:center; gap:12px;
+}
+.slide-tag { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; color:var(--verde-escuro); font-weight:500; }
+.slide-content h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(1.3rem,3vw,1.9rem);
+  font-weight:400; color:var(--marrom); line-height:1.25;
+}
+.slide-content p {
+  font-size: clamp(0.82rem,1.8vw,0.9rem);
+  line-height:1.75; color:var(--texto-suave); font-weight:300;
+}
+.slide-cta {
+  display:inline-flex; align-items:center; gap:8px; margin-top:4px;
+  padding: 10px 20px;
+  border: 1.5px solid var(--verde-escuro);
+  color:var(--verde-escuro); text-decoration:none;
+  font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+  font-weight:500; transition:all .3s; align-self:flex-start; border-radius:1px;
+}
+.slide-cta:hover { background:var(--verde-escuro); color:white; }
+.slide-cta svg { width:13px; height:13px; }
+
+/* Slider controls */
+.slider-controls {
+  display:flex; align-items:center; justify-content:center; gap:14px; margin-top:24px;
+}
+.slider-btn {
+  width:40px; height:40px; border-radius:50%;
+  border:1.5px solid var(--bege); background:white;
+  color:var(--verde-escuro); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .3s; font-size:.95rem;
+}
+.slider-btn:hover { background:var(--verde-escuro); border-color:var(--verde-escuro); color:white; }
+.slider-dots { display:flex; gap:7px; }
+.dot { width:6px; height:6px; border-radius:50%; background:var(--bege); cursor:pointer; transition:all .3s; }
+.dot.active { background:var(--verde-escuro); width:20px; border-radius:3px; }
+
+/* ── PSICOTERAPIA ── */
+.psicoterapia {
+  background:var(--verde-escuro); color:white;
+  padding: clamp(60px,10vw,100px) 4vw;
+  text-align:center; position:relative; overflow:hidden;
+}
+.psicoterapia::before {
+  content:'❧'; position:absolute; font-size:16rem; opacity:.04;
+  top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;
+}
+.psicoterapia-inner { max-width:700px; margin:0 auto; position:relative; z-index:1; }
+.section-label {
+  font-size:.62rem; letter-spacing:.25em; text-transform:uppercase;
+  margin-bottom:20px; display:block; opacity:.55;
+}
+.psicoterapia h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(1.7rem,4vw,2.8rem);
+  font-weight:300; line-height:1.35; margin-bottom:28px;
+}
+.psicoterapia p {
+  font-size: clamp(0.85rem,2vw,0.95rem);
+  line-height:1.9; opacity:.85; font-weight:300; margin-bottom:18px;
+}
+.quote-block {
+  border-left:2px solid rgba(255,255,255,.3);
+  padding:18px 24px; margin:32px auto; text-align:left; max-width:520px;
+}
+.quote-block blockquote {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(1.1rem,2.5vw,1.35rem);
+  font-style:italic; line-height:1.5; margin-bottom:10px;
+}
+.quote-block cite {
+  font-size:.72rem; letter-spacing:.15em; text-transform:uppercase; opacity:.5; font-style:normal;
+}
+
+/* ── SEÇÕES ── */
+.section { padding: clamp(56px,9vw,100px) 4vw; }
+.section:nth-child(even) { background:#FDFAF5; }
+.section-inner { max-width:1080px; margin:0 auto; }
+.section-header {
+  display:grid; grid-template-columns:auto 1fr; gap:24px;
+  align-items:start; margin-bottom: clamp(36px,6vw,60px);
+}
+@media(max-width:480px){ .section-header { grid-template-columns:1fr; gap:12px; } }
+.section-number {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(3rem,8vw,5rem);
+  font-weight:300; color:var(--bege); line-height:1; user-select:none;
+}
+.section-title-group { padding-top:6px; border-top:1.5px solid var(--bege); }
+.section-title-group .label {
+  font-size:.62rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--verde-escuro); display:block; margin-bottom:8px;
+}
+.section-title-group h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(1.5rem,4vw,2.6rem);
+  font-weight:400; color:var(--marrom); line-height:1.2;
+}
+
+/* Bio */
+.bio-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+@media(max-width:700px){ .bio-grid { grid-template-columns:1fr; } }
+.bio-text p {
+  font-size: clamp(0.85rem,2vw,0.95rem);
+  line-height:1.85; color:var(--texto-suave); font-weight:300; margin-bottom:18px;
+}
+.bio-credentials {
+  background:var(--verde-escuro); color:white;
+  padding: clamp(28px,4vw,40px); border-radius:2px; align-self:start;
+}
+.bio-credentials h3 {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem; font-weight:400; margin-bottom:20px; opacity:.65; letter-spacing:.05em;
+}
+.credential-item { padding:14px 0; border-bottom:1px solid rgba(255,255,255,.1); }
+.credential-item:last-child { border-bottom:none; }
+.credential-item .inst {
+  font-size:.62rem; letter-spacing:.15em; text-transform:uppercase;
+  opacity:.45; margin-bottom:3px; display:block;
+}
+.credential-item p { font-size:.85rem; line-height:1.5; font-weight:300; opacity:.9; }
+
+/* Técnicas */
+.tecnicas-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:var(--bege); }
+@media(max-width:700px){ .tecnicas-grid { grid-template-columns:1fr; } }
+.tecnica-card {
+  background:white; padding: clamp(28px,4vw,44px) clamp(22px,3vw,36px);
+  transition:all .3s; position:relative; overflow:hidden;
+}
+.tecnica-card::before {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+  background:var(--verde-escuro); transform:scaleX(0); transition:transform .3s; transform-origin:left;
+}
+.tecnica-card:hover::before { transform:scaleX(1); }
+.tecnica-card:hover { transform:translateY(-3px); box-shadow:0 10px 32px rgba(58,46,40,.1); }
+.tecnica-card.destaque {
+  grid-column:span 3;
+  display:grid; grid-template-columns:1fr 2fr; gap:40px;
+  background:var(--lilas-suave); padding: clamp(32px,5vw,56px) clamp(24px,4vw,44px);
+}
+@media(max-width:700px){ .tecnica-card.destaque { grid-column:span 1; grid-template-columns:1fr; gap:16px; } }
+.tecnica-emoji { font-size: clamp(1.8rem,4vw,2.4rem); margin-bottom:16px; display:block; }
+.tecnica-card h3 {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(1.1rem,2.5vw,1.4rem); color:var(--marrom); margin-bottom:10px; font-weight:400;
+}
+.tecnica-card.destaque h3 { font-size: clamp(1.3rem,3vw,1.9rem); }
+.tecnica-card p { font-size: clamp(0.82rem,1.8vw,0.88rem); line-height:1.8; color:var(--texto-suave); font-weight:300; }
+.badge-destaque {
+  display:inline-block; background:var(--lilas); color:white;
+  font-size:.58rem; letter-spacing:.15em; text-transform:uppercase;
+  padding:3px 10px; border-radius:20px; margin-bottom:10px;
+}
+
+/* Blog */
+.blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+@media(max-width:700px){ .blog-grid { grid-template-columns:1fr; gap:20px; } }
+@media(min-width:701px) and (max-width:900px){ .blog-grid { grid-template-columns:repeat(2,1fr); } }
+.blog-card { border-top:2px solid var(--bege); padding-top:20px; transition:all .3s; cursor:pointer; }
+.blog-card:hover .blog-card-title { color:var(--verde-escuro); }
+.blog-card-tag {
+  font-size:.58rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--terracota); margin-bottom:10px; display:block;
+}
+.blog-card-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(1rem,2.5vw,1.2rem); color:var(--marrom); margin-bottom:10px;
+  line-height:1.35; font-weight:400; transition:color .3s;
+}
+.blog-card p { font-size: clamp(0.8rem,1.8vw,0.85rem); line-height:1.75; color:var(--texto-suave); font-weight:300; }
+
+/* Bibliografia */
+.biblio-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+@media(max-width:640px){ .biblio-grid { grid-template-columns:1fr; } }
+.biblio-item {
+  display:grid; grid-template-columns:40px 1fr; gap:16px;
+  align-items:start; padding: clamp(18px,3vw,24px);
+  border:1px solid var(--bege); transition:all .3s;
+}
+.biblio-item:hover { border-color:var(--verde-escuro); background:#FDFAF5; }
+.biblio-index {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(1.5rem,4vw,2rem); color:var(--bege); font-weight:300; line-height:1; text-align:center; padding-top:3px;
+}
+.biblio-item h4 {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(0.95rem,2vw,1.05rem); color:var(--marrom); margin-bottom:3px; font-weight:400;
+}
+.biblio-item .autor {
+  font-size:.75rem; color:var(--verde-escuro); font-weight:400;
+  letter-spacing:.05em; margin-bottom:6px; display:block;
+}
+.biblio-item p { font-size:.8rem; color:var(--texto-suave); line-height:1.65; font-weight:300; }
+
+/* ── CONTATO ── */
+.contato {
+  background:var(--marrom); color:white;
+  padding: clamp(56px,8vw,80px) 4vw; text-align:center;
+}
+.contato h2 {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(1.6rem,4vw,2.4rem); font-weight:300; margin-bottom:10px;
+}
+.contato > p { font-size:.88rem; opacity:.55; font-weight:300; margin-bottom:32px; }
+.contato-btns { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+.contato-btn {
+  display:inline-flex; align-items:center; gap:10px; padding: 14px 26px;
+  border:1.5px solid rgba(255,255,255,.3); color:white; text-decoration:none;
+  font-size:.82rem; letter-spacing:.1em; text-transform:uppercase;
+  font-weight:400; transition:all .3s; border-radius:1px;
+}
+.contato-btn:hover { background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.6); }
+.contato-btn.whatsapp { border-color:#25D366; color:#25D366; }
+.contato-btn.whatsapp:hover { background:rgba(37,211,102,.12); }
+.contato-btn svg { width:17px; height:17px; flex-shrink:0; }
+.footer-info {
+  margin-top:48px; padding-top:32px;
+  border-top:1px solid rgba(255,255,255,.1);
+  font-size:.75rem; opacity:.3; font-weight:300; letter-spacing:.08em;
+}
+.anchor-target { scroll-margin-top: 80px; }
+
+/* ── ADD BLOG POST BUTTON ── */
+.add-blog-btn {
+  display:none;
+  width:100%; padding:24px; border:2px dashed var(--bege);
+  background:transparent; cursor:pointer; color:var(--texto-suave);
+  font-family:'Jost',sans-serif; font-size:.82rem; letter-spacing:.1em;
+  text-transform:uppercase; transition:all .3s; border-radius:2px; margin-top:8px;
+}
+.add-blog-btn:hover { border-color:var(--verde-escuro); color:var(--verde-escuro); }
+body.edit-mode .add-blog-btn { display:block; }
+
+/* Delete button for blog cards */
+.blog-card { position:relative; }
+.delete-card-btn {
+  display:none; position:absolute; top:-8px; right:-8px;
+  width:26px; height:26px; border-radius:50%;
+  background:var(--terracota); color:white; border:none;
+  cursor:pointer; font-size:14px; align-items:center; justify-content:center;
+  line-height:1; z-index:10;
+}
+body.edit-mode .blog-card:hover .delete-card-btn { display:flex; }
+
+/* Image wrapper for edit */
+.img-wrapper { position:relative; display:block; }
+</style>
+</head>
+<body>
+
+<!-- ── EDIT TOGGLE ── -->
+<button id="edit-toggle" title="Editar site" aria-label="Ativar edição">✏️</button>
+
+<!-- ── EDIT TOOLBAR ── -->
+<div id="edit-toolbar" class="hidden">
+  <div class="dot"></div>
+  <span>Modo edição ativo</span>
+  <button onclick="addBlogPost()">+ Novo texto</button>
+  <button class="save-btn" onclick="saveAll()">💾 Salvar</button>
+  <button onclick="toggleEdit()">✕ Sair</button>
+</div>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="header-nome">
+    <span data-editable="header-nome" contenteditable="false">Juliana Guidugli</span>
+    <span data-editable="header-sub" contenteditable="false">Psicologia Clínica · CRP 06/73272</span>
+  </div>
+  <div class="header-icons">
+    <a href="https://wa.me/5511981816454" target="_blank" title="WhatsApp" aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/pausaseprosasjunguianas/" target="_blank" title="Instagram" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    </a>
+    <a href="https://maps.google.com/?q=Av.+Jandira+295+cj+407+Moema+São+Paulo" target="_blank" title="Como chegar" aria-label="Google Maps">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    </a>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div style="max-width:1080px;margin:0 auto;">
+    <div class="slider-intro">
+      <h1 data-editable="hero-title" contenteditable="false">Psicologia <em>Analítica</em><br>para uma vida mais autêntica</h1>
+      <p data-editable="hero-sub" contenteditable="false">Psicóloga Junguiana · Moema, São Paulo</p>
+    </div>
+    <div class="slider-container" id="sliderContainer">
+      <div class="slider-track" id="sliderTrack">
+
+        <div class="slide slide-0">
+          <div class="slide-visual">
+            <div class="slide-visual-icon">🌿</div>
+            <div class="slide-visual-number">01</div>
+            <div class="slide-visual-label">Trajetória</div>
+          </div>
+          <div class="slide-content">
+            <span class="slide-tag" data-editable="s0-tag" contenteditable="false">Sobre Juliana</span>
+            <h2 data-editable="s0-title" contenteditable="false">Formação & Trajetória</h2>
+            <p data-editable="s0-text" contenteditable="false">Psicóloga clínica com 20 anos de experiência, formada pela PUC-SP e especialista em Psicoterapia Analítica pelo Instituto Sedes Sapientiae.</p>
+            <a href="#bio" class="slide-cta">Conhecer mais <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+
+        <div class="slide slide-1">
+          <div class="slide-visual">
+            <div class="slide-visual-icon">🏺</div>
+            <div class="slide-visual-number">02</div>
+            <div class="slide-visual-label">Abordagem</div>
+          </div>
+          <div class="slide-content">
+            <span class="slide-tag" data-editable="s1-tag" contenteditable="false">Técnicas Expressivas</span>
+            <h2 data-editable="s1-title" contenteditable="false">Sandplay, Pinturas & Argila</h2>
+            <p data-editable="s1-text" contenteditable="false">Recursos terapêuticos que acessam o inconsciente de forma criativa e simbólica, integrando corpo, emoção e psique no processo de cura.</p>
+            <a href="#tecnicas" class="slide-cta">Explorar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+
+        <div class="slide slide-2">
+          <div class="slide-visual">
+            <div class="slide-visual-icon">✍️</div>
+            <div class="slide-visual-number">03</div>
+            <div class="slide-visual-label">Reflexões</div>
+          </div>
+          <div class="slide-content">
+            <span class="slide-tag" data-editable="s2-tag" contenteditable="false">Pausas & Prosas</span>
+            <h2 data-editable="s2-title" contenteditable="false">Textos para Pensar & Sentir</h2>
+            <p data-editable="s2-text" contenteditable="false">Reflexões sobre psicologia junguiana, vida cotidiana, simbolismo e o processo de tornar-se quem verdadeiramente somos.</p>
+            <a href="#blog" class="slide-cta">Ler textos <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+
+        <div class="slide slide-3">
+          <div class="slide-visual">
+            <div class="slide-visual-icon">📚</div>
+            <div class="slide-visual-number">04</div>
+            <div class="slide-visual-label">Referências</div>
+          </div>
+          <div class="slide-content">
+            <span class="slide-tag" data-editable="s3-tag" contenteditable="false">Leituras Fundamentais</span>
+            <h2 data-editable="s3-title" contenteditable="false">Bibliografia Técnica</h2>
+            <p data-editable="s3-text" contenteditable="false">Obras que fundamentam a prática clínica e o pensamento junguiano — referências para quem deseja aprofundar-se na psicologia analítica.</p>
+            <a href="#bibliografia" class="slide-cta">Ver referências <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="slider-controls">
+      <button class="slider-btn" id="prevBtn" aria-label="Anterior">←</button>
+      <div class="slider-dots" id="sliderDots">
+        <div class="dot active" data-index="0"></div>
+        <div class="dot" data-index="1"></div>
+        <div class="dot" data-index="2"></div>
+        <div class="dot" data-index="3"></div>
+      </div>
+      <button class="slider-btn" id="nextBtn" aria-label="Próximo">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── PSICOTERAPIA ── -->
+<section class="psicoterapia">
+  <div class="psicoterapia-inner">
+    <span class="section-label">Sobre a terapia junguiana</span>
+    <h2 data-editable="psico-title" contenteditable="false">O que é a Psicoterapia Analítica?</h2>
+    <p data-editable="psico-p1" contenteditable="false">A psicoterapia permite que o indivíduo, através do autoconhecimento, possa viver sua vida de forma mais autêntica e consciente. A terapia junguiana oferece um olhar profundo sobre o desenvolvimento humano e sobre os padrões complexos que se formam e se emaranham ao longo da vida.</p>
+    <p data-editable="psico-p2" contenteditable="false">Através desta potente relação humana terapeuta-paciente é possível compreender mais claramente os sinais que apontam para novos caminhos de desenvolvimento. O indivíduo que conhece melhor o seu modo de ser poderá fazer escolhas mais conscientes e encarar a vida com mais responsabilidade, coragem, criatividade e confiança.</p>
+    <div class="quote-block">
+      <blockquote data-editable="psico-quote" contenteditable="false">"Cada indivíduo só pode alcançar a felicidade a seu próprio modo."</blockquote>
+      <cite data-editable="psico-cite" contenteditable="false">— C.G. Jung</cite>
+    </div>
+    <p data-editable="psico-p3" contenteditable="false">A psicoterapia pode ser indicada para qualquer pessoa, em diferentes momentos de vida: busca pelo autoconhecimento, dificuldades nos relacionamentos, insegurança, luto, traumas, somatizações, depressão, ansiedade, compulsões, dependência, transtornos alimentares, entre outros.</p>
+    <p style="margin-top:18px;opacity:.6;font-size:.83rem;" data-editable="psico-info" contenteditable="false">Atendimentos online ou presencial em Moema (SP) · Sessões semanais de 50 minutos · Verifique reembolso pelo seu convênio</p>
+  </div>
+</section>
+
+<!-- ── BIO ── -->
+<section class="section anchor-target" id="bio">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <div class="section-title-group">
+        <span class="label">Trajetória</span>
+        <h2 data-editable="bio-title" contenteditable="false">Formação & Experiência</h2>
+      </div>
+    </div>
+    <div class="bio-grid">
+      <div class="bio-text">
+        <p data-editable="bio-p1" contenteditable="false">Psicóloga clínica com aproximadamente 20 anos de experiência, atendo adolescentes e adultos em consultório localizado na zona sul de São Paulo.</p>
+        <p data-editable="bio-p2" contenteditable="false">Além da experiência clínica, os anos de atuação como psicóloga na rede pública de saúde — em Centros de Atenção Psicossocial (CAPS) e Unidades Básicas de Saúde — contribuíram para um olhar mais amplo e humano sobre o sofrimento psíquico e o cuidado integral à saúde.</p>
+        <p data-editable="bio-p3" contenteditable="false">A formação em Psicoterapia Analítica e Abordagem Corporal no Instituto Sedes Sapientiae permitiu um aprofundamento prático-teórico como analista junguiana, por meio de supervisões clínicas, discussões de caso e reflexões sobre os conceitos estruturantes da psicologia analítica.</p>
+        <p data-editable="bio-p4" contenteditable="false">Além da psicologia, navego por outros campos de estudo, mergulhando a fundo na compreensão de símbolos que se apresentam a cada momento.</p>
+      </div>
+      <div class="bio-credentials">
+        <h3>Formação Acadêmica</h3>
+        <div class="credential-item">
+          <span class="inst">PUC São Paulo</span>
+          <p data-editable="cred-1" contenteditable="false">Graduação em Psicologia</p>
+        </div>
+        <div class="credential-item">
+          <span class="inst">UNIFESP</span>
+          <p data-editable="cred-2" contenteditable="false">Especialização em Farmacodependências</p>
+        </div>
+        <div class="credential-item">
+          <span class="inst">Instituto Sedes Sapientiae</span>
+          <p data-editable="cred-3" contenteditable="false">Especialização em Psicoterapia Analítica e Abordagem Corporal</p>
+        </div>
+        <div class="credential-item">
+          <span class="inst">Registro Profissional</span>
+          <p data-editable="cred-4" contenteditable="false">CRP 06/73272</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TÉCNICAS ── -->
+<section class="section anchor-target" id="tecnicas">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <div class="section-title-group">
+        <span class="label">Abordagem Terapêutica</span>
+        <h2 data-editable="tec-title" contenteditable="false">Técnicas Expressivas & Criativas</h2>
+      </div>
+    </div>
+    <div class="tecnicas-grid">
+      <div class="tecnica-card destaque">
+        <div>
+          <span class="badge-destaque">Técnica central</span>
+          <span class="tecnica-emoji">🏖️</span>
+          <h3 data-editable="tec-sand-title" contenteditable="false">Sandplay — Jogo de Areia</h3>
+        </div>
+        <div>
+          <p data-editable="tec-sand-p1" contenteditable="false">O Sandplay é uma abordagem terapêutica que utiliza uma bandeja de areia e miniaturas para criar cenas tridimensionais que expressam estados internos, emoções e imagens do inconsciente. Desenvolvida a partir do pensamento de C.G. Jung, a técnica permite que conteúdos que ainda não encontraram palavras ganhem forma visível e simbólica.</p>
+          <p style="margin-top:14px;" data-editable="tec-sand-p2" contenteditable="false">No espaço protegido da caixa de areia, o psiquismo encontra uma via de expressão que vai além da linguagem verbal — integrando corpo, emoção e imaginação num processo genuinamente transformador.</p>
+        </div>
+      </div>
+      <div class="tecnica-card">
+        <span class="tecnica-emoji">🎨</span>
+        <h3 data-editable="tec-pint-title" contenteditable="false">Pintura Expressiva</h3>
+        <p data-editable="tec-pint-p" contenteditable="false">A pintura como linguagem do inconsciente. Através de cores, formas e imagens que emergem espontaneamente, o processo criativo revela aspectos da psique que resistem à verbalização direta.</p>
+      </div>
+      <div class="tecnica-card">
+        <span class="tecnica-emoji">🏺</span>
+        <h3 data-editable="tec-arg-title" contenteditable="false">Modelagem em Argila</h3>
+        <p data-editable="tec-arg-p" contenteditable="false">O contato tátil com a argila conecta corpo e psique de forma profunda. A matéria que toma forma entre as mãos carrega e transforma conteúdos emocionais de maneira única e integradora.</p>
+      </div>
+      <div class="tecnica-card">
+        <span class="tecnica-emoji">🌀</span>
+        <h3 data-editable="tec-corp-title" contenteditable="false">Abordagem Corporal</h3>
+        <p data-editable="tec-corp-p" contenteditable="false">Fundamentada na formação pelo Sedes Sapientiae, a escuta do corpo enriquece o trabalho analítico — o soma como portador de memórias, defesas e potencial de cura.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BLOG ── -->
+<section class="section anchor-target" id="blog">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <div class="section-title-group">
+        <span class="label">Pausas & Prosas</span>
+        <h2 data-editable="blog-title" contenteditable="false">Textos para Pensar & Sentir</h2>
+      </div>
+    </div>
+    <div class="blog-grid" id="blogGrid">
+      <div class="blog-card">
+        <button class="delete-card-btn" onclick="deleteCard(this)" title="Remover">×</button>
+        <span class="blog-card-tag" data-editable contenteditable="false">Individuação</span>
+        <h3 class="blog-card-title" data-editable contenteditable="false">Tornar-se quem se é: a jornada da individuação junguiana</h3>
+        <p data-editable contenteditable="false">A individuação não é um destino, mas um caminho contínuo de reconhecimento e integração das partes de nós mesmos que ainda vivem na sombra...</p>
+      </div>
+      <div class="blog-card">
+        <button class="delete-card-btn" onclick="deleteCard(this)" title="Remover">×</button>
+        <span class="blog-card-tag" data-editable contenteditable="false">Sonhos</span>
+        <h3 class="blog-card-title" data-editable contenteditable="false">Os sonhos como mensageiros da alma</h3>
+        <p data-editable contenteditable="false">Jung compreendeu os sonhos como a via régia do inconsciente — não como enigmas a decifrar, mas como convites ao diálogo com a própria natureza...</p>
+      </div>
+      <div class="blog-card">
+        <button class="delete-card-btn" onclick="deleteCard(this)" title="Remover">×</button>
+        <span class="blog-card-tag" data-editable contenteditable="false">Sombra</span>
+        <h3 class="blog-card-title" data-editable contenteditable="false">Encontrar a sombra: o que recusamos em nós</h3>
+        <p data-editable contenteditable="false">A sombra não é o que há de ruim em nós — é simplesmente o que não conhecemos ainda. Reconhecê-la é o primeiro gesto de honestidade com a própria vida...</p>
+      </div>
+      <div class="blog-card">
+        <button class="delete-card-btn" onclick="deleteCard(this)" title="Remover">×</button>
+        <span class="blog-card-tag" data-editable contenteditable="false">Símbolos</span>
+        <h3 class="blog-card-title" data-editable contenteditable="false">A linguagem dos símbolos no cotidiano</h3>
+        <p data-editable contenteditable="false">Mitos, contos de fada, obras de arte e até os pequenos acontecimentos do dia a dia carregam simbolismos que falam diretamente à psique...</p>
+      </div>
+      <div class="blog-card">
+        <button class="delete-card-btn" onclick="deleteCard(this)" title="Remover">×</button>
+        <span class="blog-card-tag" data-editable contenteditable="false">Crise</span>
+        <h3 class="blog-card-title" data-editable contenteditable="false">A crise como porta: quando o sofrimento aponta direção</h3>
+        <p data-editable contenteditable="false">A psicologia analítica nos convida a olhar para a crise não como fracasso, mas como o momento em que o antigo já não serve e o novo ainda não chegou...</p>
+      </div>
+      <div class="blog-card">
+        <button class="delete-card-btn" onclick="deleteCard(this)" title="Remover">×</button>
+        <span class="blog-card-tag" data-editable contenteditable="false">Corpo & Psique</span>
+        <h3 class="blog-card-title" data-editable contenteditable="false">O corpo que fala o que a mente cala</h3>
+        <p data-editable contenteditable="false">Sintomas físicos muitas vezes carregam mensagens psíquicas. Escutar o corpo como parte integrante do processo terapêutico é um dos fundamentos da abordagem corporal...</p>
+      </div>
+    </div>
+    <button class="add-blog-btn" onclick="addBlogPost()">+ Adicionar novo texto</button>
+  </div>
+</section>
+
+<!-- ── BIBLIOGRAFIA ── -->
+<section class="section anchor-target" id="bibliografia">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <div class="section-title-group">
+        <span class="label">Leituras Fundamentais</span>
+        <h2 data-editable="bib-title" contenteditable="false">Bibliografia Técnica</h2>
+      </div>
+    </div>
+    <div class="biblio-grid">
+      <div class="biblio-item">
+        <div class="biblio-index">01</div>
+        <div>
+          <h4 data-editable="bib1-title" contenteditable="false">O Homem e seus Símbolos</h4>
+          <span class="autor" data-editable="bib1-autor" contenteditable="false">C.G. Jung et al.</span>
+          <p data-editable="bib1-p" contenteditable="false">Obra introdutória fundamental ao pensamento junguiano, explorando o papel dos símbolos no processo de individuação e na vida psíquica.</p>
+        </div>
+      </div>
+      <div class="biblio-item">
+        <div class="biblio-index">02</div>
+        <div>
+          <h4 data-editable="bib2-title" contenteditable="false">Memórias, Sonhos, Reflexões</h4>
+          <span class="autor" data-editable="bib2-autor" contenteditable="false">C.G. Jung</span>
+          <p data-editable="bib2-p" contenteditable="false">Autobiografia intelectual e espiritual de Jung — um mergulho único na mente do fundador da psicologia analítica.</p>
+        </div>
+      </div>
+      <div class="biblio-item">
+        <div class="biblio-index">03</div>
+        <div>
+          <h4 data-editable="bib3-title" contenteditable="false">Sandplay: A Psychotherapeutic Approach to the Psyche</h4>
+          <span class="autor" data-editable="bib3-autor" contenteditable="false">Dora Kalff</span>
+          <p data-editable="bib3-p" contenteditable="false">Obra fundadora do método do jogo de areia como abordagem terapêutica, desenvolvida por Kalff a partir do pensamento de Jung.</p>
+        </div>
+      </div>
+      <div class="biblio-item">
+        <div class="biblio-index">04</div>
+        <div>
+          <h4 data-editable="bib4-title" contenteditable="false">Retratos do Corpo: Uma Abordagem Clínica</h4>
+          <span class="autor" data-editable="bib4-autor" contenteditable="false">Organização: Juliana Guidugli et al.</span>
+          <p data-editable="bib4-p" contenteditable="false">Obra coletiva que explora a escuta do corpo na prática clínica junguiana — referência da abordagem corporal no contexto brasileiro.</p>
+        </div>
+      </div>
+      <div class="biblio-item">
+        <div class="biblio-index">05</div>
+        <div>
+          <h4 data-editable="bib5-title" contenteditable="false">A Interpretação dos Sonhos</h4>
+          <span class="autor" data-editable="bib5-autor" contenteditable="false">C.G. Jung</span>
+          <p data-editable="bib5-p" contenteditable="false">Referência essencial para compreender como Jung concebia o sonho como mensagem do inconsciente e ferramenta central da análise.</p>
+        </div>
+      </div>
+      <div class="biblio-item">
+        <div class="biblio-index">06</div>
+        <div>
+          <h4 data-editable="bib6-title" contenteditable="false">Psicologia e Alquimia</h4>
+          <span class="autor" data-editable="bib6-autor" contenteditable="false">C.G. Jung</span>
+          <p data-editable="bib6-p" contenteditable="false">Exploração profunda dos paralelos entre os processos alquímicos e o processo de individuação — uma das obras mais densas e ricas de Jung.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTATO ── -->
+<section class="contato">
+  <h2 data-editable="contato-title" contenteditable="false">Vamos conversar?</h2>
+  <p data-editable="contato-sub" contenteditable="false">Atendimento online ou presencial · Moema, São Paulo · Sessões semanais de 50 min</p>
+  <div class="contato-btns">
+    <a href="https://wa.me/5511981816454" target="_blank" class="contato-btn whatsapp">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      WhatsApp
+    </a>
+    <a href="https://www.instagram.com/pausaseprosasjunguianas/" target="_blank" class="contato-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width:17px;height:17px;flex-shrink:0"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      Instagram
+    </a>
+    <a href="https://maps.google.com/?q=Av.+Jandira+295+cj+407+Moema+São+Paulo" target="_blank" class="contato-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      Av. Jandira, 295 — cj. 407, Moema
+    </a>
+  </div>
+  <div class="footer-info" data-editable="footer-info" contenteditable="false">
+    Juliana M. S. Guidugli · Psicóloga Junguiana · CRP 06/73272
+  </div>
+</section>
+
+<script>
+// ── SLIDER ──
+const track = document.getElementById('sliderTrack');
+const dots = document.querySelectorAll('.dot');
+let current = 0, total = 4, autoTimer, startX = 0;
+
+function goTo(i) {
+  current = (i + total) % total;
+  track.style.transform = `translateX(-${current * 100}%)`;
+  dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+}
+document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.index)));
+document.addEventListener('keydown', e => {
+  if (document.getElementById('modal').style.display === 'flex') return;
+  if(e.key==='ArrowRight') goTo(current+1);
+  if(e.key==='ArrowLeft') goTo(current-1);
+  if(e.key==='Escape') closeModal();
+});
+
+const sc = document.getElementById('sliderContainer');
+sc.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive:true});
+sc.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - startX;
+  if (Math.abs(dx) > 40) goTo(dx < 0 ? current + 1 : current - 1);
+}, {passive:true});
+
+autoTimer = setInterval(() => goTo(current + 1), 5500);
+sc.addEventListener('mouseenter', () => clearInterval(autoTimer));
+sc.addEventListener('mouseleave', () => { autoTimer = setInterval(() => goTo(current + 1), 5500); });
+
+// ── EDIT MODE ──
+let editActive = false;
+
+function toggleEdit() {
+  editActive = !editActive;
+  document.body.classList.toggle('edit-mode', editActive);
+  const btn = document.getElementById('edit-toggle');
+  const toolbar = document.getElementById('edit-toolbar');
+  btn.textContent = editActive ? '✓' : '✏️';
+  btn.classList.toggle('active', editActive);
+  toolbar.classList.toggle('hidden', !editActive);
+  document.querySelectorAll('[data-editable]').forEach(el => {
+    el.contentEditable = editActive ? 'true' : 'false';
+  });
+  // Show/hide link fields on biblio and blog cards
+  document.querySelectorAll('.card-link-row').forEach(el => {
+    el.style.display = editActive ? 'flex' : 'none';
+  });
+}
+
+document.getElementById('edit-toggle').addEventListener('click', () => {
+  if (!editActive) {
+    const senha = prompt('Senha para editar:');
+    if (senha !== 'Jung2909#') { alert('Senha incorreta.'); return; }
+  }
+  toggleEdit();
+});
+
+function saveAll() {
+  const data = {};
+  document.querySelectorAll('[data-editable]').forEach(el => {
+    const key = el.getAttribute('data-editable');
+    if (key) data[key] = el.innerHTML;
+  });
+
+  // Blog cards
+  const blogCards = [];
+  document.querySelectorAll('#blogGrid .blog-card').forEach(card => {
+    blogCards.push({
+      tag:   card.querySelector('.blog-card-tag')?.innerHTML || '',
+      title: card.querySelector('.blog-card-title')?.innerHTML || '',
+      text:  card.querySelector('.blog-card-excerpt')?.innerHTML || '',
+      full:  card.querySelector('.blog-card-full')?.innerHTML || '',
+      link:  card.querySelector('.card-link-input')?.value || ''
+    });
+  });
+  data['__blogCards'] = JSON.stringify(blogCards);
+
+  // Biblio items
+  const biblioItems = [];
+  document.querySelectorAll('.biblio-item').forEach(item => {
+    biblioItems.push({
+      index: item.querySelector('.biblio-index')?.textContent || '',
+      title: item.querySelector('h4')?.innerHTML || '',
+      autor: item.querySelector('.autor')?.innerHTML || '',
+      text:  item.querySelector('p')?.innerHTML || '',
+      link:  item.querySelector('.card-link-input')?.value || ''
+    });
+  });
+  data['__biblioItems'] = JSON.stringify(biblioItems);
+
+  localStorage.setItem('jg-site-data', JSON.stringify(data));
+  const btn = document.querySelector('.save-btn');
+  const orig = btn.textContent;
+  btn.textContent = '✓ Salvo!';
+  btn.style.background = '#25a244';
+  setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+}
+
+function loadSaved() {
+  const raw = localStorage.getItem('jg-site-data');
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    Object.entries(data).forEach(([key, val]) => {
+      if (key.startsWith('__')) return;
+      const el = document.querySelector(`[data-editable="${key}"]`);
+      if (el) el.innerHTML = val;
+    });
+    if (data['__blogCards']) {
+      const cards = JSON.parse(data['__blogCards']);
+      const grid = document.getElementById('blogGrid');
+      grid.innerHTML = '';
+      cards.forEach(c => grid.appendChild(createBlogCard(c.tag, c.title, c.text, c.full, c.link)));
+    }
+    if (data['__biblioItems']) {
+      const items = JSON.parse(data['__biblioItems']);
+      const grid = document.querySelector('.biblio-grid');
+      grid.innerHTML = '';
+      items.forEach(b => grid.appendChild(createBiblioItem(b.index, b.title, b.autor, b.text, b.link)));
+    }
+  } catch(e) { console.warn('Load error', e); }
+}
+
+// ── BLOG CARDS ──
+function createBlogCard(tag='', title='', excerpt='', full='', link='') {
+  const card = document.createElement('div');
+  card.className = 'blog-card';
+  card.innerHTML = `
+    <button class="delete-card-btn" onclick="deleteCard(this)" title="Remover">×</button>
+    <span class="blog-card-tag" data-editable contenteditable="${editActive}">${tag || 'Categoria'}</span>
+    <h3 class="blog-card-title" data-editable contenteditable="${editActive}">${title || 'Título do texto'}</h3>
+    <p class="blog-card-excerpt" data-editable contenteditable="${editActive}">${excerpt || 'Escreva aqui a introdução do texto...'}</p>
+    <div class="blog-card-full" style="display:none">${full || ''}</div>
+    <div class="card-link-row" style="display:${editActive?'flex':'none'}">
+      <span class="card-link-label">🔗 Link externo (Instagram, etc):</span>
+      <input class="card-link-input" type="url" placeholder="https://instagram.com/p/..." value="${link}">
+    </div>
+    <span class="blog-read-more">Ler mais →</span>
+  `;
+  card.querySelector('.blog-card-title').addEventListener('click', e => { if(!editActive) { e.stopPropagation(); openCardModal(card); } });
+  card.querySelector('.blog-card-excerpt').addEventListener('click', e => { if(!editActive) { e.stopPropagation(); openCardModal(card); } });
+  card.querySelector('.blog-read-more').addEventListener('click', e => { if(!editActive) { e.stopPropagation(); openCardModal(card); } });
+  return card;
+}
+
+function addBlogPost() {
+  const grid = document.getElementById('blogGrid');
+  const card = createBlogCard();
+  grid.appendChild(card);
+  card.scrollIntoView({behavior:'smooth', block:'center'});
+  card.querySelector('h3').focus();
+}
+
+function deleteCard(btn) {
+  if (confirm('Remover este texto?')) btn.closest('.blog-card').remove();
+}
+
+// Attach click to existing blog cards on load
+document.querySelectorAll('#blogGrid .blog-card').forEach(card => {
+  // Add full text div and link row if not present
+  if (!card.querySelector('.blog-card-full')) {
+    const div = document.createElement('div');
+    div.className = 'blog-card-full';
+    div.style.display = 'none';
+    card.appendChild(div);
+  }
+  if (!card.querySelector('.card-link-row')) {
+    const row = document.createElement('div');
+    row.className = 'card-link-row';
+    row.style.display = 'none';
+    row.innerHTML = `<span class="card-link-label">🔗 Link externo (Instagram, etc):</span><input class="card-link-input" type="url" placeholder="https://instagram.com/p/...">`;
+    card.appendChild(row);
+  }
+  if (!card.querySelector('.blog-read-more')) {
+    const rm = document.createElement('span');
+    rm.className = 'blog-read-more';
+    rm.textContent = 'Ler mais →';
+    card.appendChild(rm);
+  }
+  // rename p to excerpt class
+  const p = card.querySelector('p');
+  if (p && !p.classList.contains('blog-card-excerpt')) p.classList.add('blog-card-excerpt');
+
+  card.querySelector('.blog-card-title')?.addEventListener('click', e => { if(!editActive) { e.stopPropagation(); openCardModal(card); }});
+  card.querySelector('.blog-card-excerpt')?.addEventListener('click', e => { if(!editActive) { e.stopPropagation(); openCardModal(card); }});
+  card.querySelector('.blog-read-more')?.addEventListener('click', e => { if(!editActive) { e.stopPropagation(); openCardModal(card); }});
+});
+
+// ── BIBLIO ITEMS ──
+function createBiblioItem(index='', title='', autor='', text='', link='') {
+  const item = document.createElement('div');
+  item.className = 'biblio-item';
+  item.innerHTML = `
+    <div class="biblio-index">${index}</div>
+    <div>
+      <h4 data-editable contenteditable="${editActive}">${title}</h4>
+      <span class="autor" data-editable contenteditable="${editActive}">${autor}</span>
+      <p data-editable contenteditable="${editActive}">${text}</p>
+      <div class="card-link-row" style="display:${editActive?'flex':'none'}">
+        <span class="card-link-label">🔗 Link (referência, PDF, etc):</span>
+        <input class="card-link-input" type="url" placeholder="https://..." value="${link}">
+      </div>
+    </div>
+  `;
+  item.addEventListener('click', () => { if(!editActive) openBiblioModal(item); });
+  return item;
+}
+
+// Attach click + link row to existing biblio items
+document.querySelectorAll('.biblio-item').forEach(item => {
+  if (!item.querySelector('.card-link-row')) {
+    const row = document.createElement('div');
+    row.className = 'card-link-row';
+    row.style.display = 'none';
+    row.innerHTML = `<span class="card-link-label">🔗 Link (referência, PDF, etc):</span><input class="card-link-input" type="url" placeholder="https://...">`;
+    item.querySelector('div:last-child').appendChild(row);
+  }
+  item.style.cursor = 'pointer';
+  item.addEventListener('click', () => { if(!editActive) openBiblioModal(item); });
+});
+
+// ── MODAL ──
+function openCardModal(card) {
+  const link = card.querySelector('.card-link-input')?.value;
+  if (link && link.trim()) { window.open(link.trim(), '_blank'); return; }
+
+  const title   = card.querySelector('.blog-card-title')?.innerHTML || '';
+  const tag     = card.querySelector('.blog-card-tag')?.innerHTML || '';
+  const excerpt = card.querySelector('.blog-card-excerpt')?.innerHTML || '';
+  const full    = card.querySelector('.blog-card-full')?.innerHTML || '';
+
+  const body = full.trim()
+    ? full
+    : `<p>${excerpt}</p><p style="opacity:.5;font-style:italic;margin-top:24px;">O texto completo ainda não foi adicionado. Ative o modo edição e clique em "Editar texto completo" no card.</p>`;
+
+  showModal(tag, title, body, card);
+}
+
+function openBiblioModal(item) {
+  const link = item.querySelector('.card-link-input')?.value;
+  if (link && link.trim()) { window.open(link.trim(), '_blank'); return; }
+
+  const title = item.querySelector('h4')?.innerHTML || '';
+  const autor = item.querySelector('.autor')?.innerHTML || '';
+  const text  = item.querySelector('p')?.innerHTML || '';
+  showModal('Referência', title, `<p><em>${autor}</em></p><p style="margin-top:16px">${text}</p>`, null);
+}
+
+function showModal(tag, title, body, sourceCard) {
+  const modal = document.getElementById('modal');
+  modal.querySelector('.modal-tag').innerHTML = tag;
+  modal.querySelector('.modal-title').innerHTML = title;
+  const content = modal.querySelector('.modal-body-content');
+  content.innerHTML = body;
+  content.contentEditable = 'false';
+
+  const editBtn = modal.querySelector('.modal-edit-btn');
+  editBtn.style.display = (editActive && sourceCard) ? 'inline-flex' : 'none';
+  editBtn.onclick = () => {
+    const isEditing = content.contentEditable === 'true';
+    content.contentEditable = isEditing ? 'false' : 'true';
+    editBtn.textContent = isEditing ? '✏️ Editar texto completo' : '💾 Confirmar';
+    if (isEditing && sourceCard) {
+      sourceCard.querySelector('.blog-card-full').innerHTML = content.innerHTML;
+    }
+    if (!isEditing) content.focus();
+  };
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+loadSaved();
+</script>
+</body>
+</html>
