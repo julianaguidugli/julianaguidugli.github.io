@@ -1,9 +1,8 @@
 ---
 title: A Princesa e a Ervilha
 tag: Contos & Mitos
-excerpt: >
-  Existem dores e incômodos que tentamos silenciar. Nos ocupamos com trabalho,
-  compromissos, produtividade, cumprindo um script esperado.
+excerpt: Existem dores e incômodos que tentamos silenciar. Nos ocupamos com
+  trabalho, compromissos, produtividade, cumprindo um script esperado.
 link: https://www.instagram.com/p/DZVZFKEgcKZ/
 ---
 Existem dores e incômodos que tentamos silenciar. Nos ocupamos com trabalho, compromissos, produtividade, cumprindo um script esperado.
