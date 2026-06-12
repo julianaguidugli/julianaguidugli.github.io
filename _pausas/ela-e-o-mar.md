@@ -1,6 +1,6 @@
 ---
 title: Ela e o mar
-tag: ÁGUAS E ONDAS
+tag: ÁGUAS & ONDAS
 excerpt: Aí está ele, o mar, a mais ininteligível das existências não humanas. E
   aqui está a mulher, de pé na praia, o mais ininteligível dos seres vivos. Como
   ser humano fez um dia uma pergunta sobre si mesmo, tornou-se o mais
