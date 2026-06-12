@@ -1,0 +1,44 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "imagens"
+public_folder: "/imagens"
+
+collections:
+  - name: "pausas"
+    label: "Pausas & Prosas"
+    label_singular: "Texto"
+    folder: "_pausas"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Categoria / Tag", name: "tag", widget: "string", default: "Pausas & Prosas" }
+      - { label: "Trecho introdutório", name: "excerpt", widget: "text", hint: "Primeiras linhas que aparecem no card do site" }
+      - { label: "Link externo (Instagram, YouTube, etc)", name: "link", widget: "string", required: false, hint: "Se preenchido, o botão 'Ler mais' abre este link" }
+      - { label: "Texto completo", name: "body", widget: "markdown", required: false, hint: "Preencha se o texto será publicado diretamente no site" }
+
+  - name: "referencias"
+    label: "Referências & Publicações"
+    label_singular: "Referência"
+    folder: "_referencias"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Autor(es)", name: "autor", widget: "string" }
+      - { label: "Descrição breve", name: "descricao", widget: "text" }
+      - { label: "Link (Amazon, YouTube, PDF, etc)", name: "link", widget: "string", required: false }
+
+  - name: "configuracoes"
+    label: "Configurações do Site"
+    files:
+      - label: "Textos Gerais"
+        name: "geral"
+        file: "_config/geral.md"
+        fields:
+          - { label: "Nome no Header", name: "header_nome", widget: "string", default: "Juliana Guidugli" }
+          - { label: "Subtítulo no Header", name: "header_sub", widget: "string", default: "Psicologia Clínica · CRP 06/73272" }
+          - { label: "Introdução (Sobre Mim)", name: "sobre_intro", widget: "text" }
+          - { label: "Texto Clínica Junguiana — parágrafo introdutório", name: "clinica_intro", widget: "text" }
