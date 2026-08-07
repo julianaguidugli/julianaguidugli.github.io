@@ -206,11 +206,8 @@ header{
 
 .sobre-foto-wrap{position:relative;}
 .sobre-foto{
-  width:100%;aspect-ratio:3/4;object-fit:cover;
-  background:var(--bege);display:block;
-  /* placeholder até ter a foto */
-  background-image:url('foto-juliana.jpg'),url('foto-juliana.jpeg');
-  background-size:cover;background-position:center top;
+  width:100%;height:auto;display:block;
+  background:var(--bege);border-radius:2px;
 }
 .sobre-foto-frame{
   position:absolute;bottom:-16px;left:-16px;right:16px;top:16px;
@@ -265,11 +262,11 @@ header{
   border-radius:3px;overflow:hidden;
   background:rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.14);
-  aspect-ratio:21/9;
+  min-height:120px;
 }
 .clinica-foto img{
   position:relative;z-index:2;
-  width:100%;height:100%;object-fit:cover;display:block;
+  width:100%;height:auto;display:block;
 }
 .clinica-foto-vazio{
   position:absolute;inset:0;z-index:1;
@@ -278,7 +275,6 @@ header{
   font-size:clamp(.85rem,2vw,1rem);color:rgba(255,255,255,.3);
   text-align:center;padding:20px;
 }
-@media(max-width:700px){.clinica-foto{aspect-ratio:16/9;}}
 .clinica-p{
   font-size:clamp(.88rem,1.8vw,.97rem);line-height:1.9;
   color:rgba(255,255,255,.82);font-weight:300;margin-bottom:18px;
@@ -317,11 +313,11 @@ header{
 .tecnica-card:hover::after{transform:scaleY(1);}
 .tecnica-card:hover{background:#FFFDFA;}
 .tecnica-img-wrap{
-  width:100%;aspect-ratio:4/3;border-radius:4px;
+  width:100%;border-radius:4px;
   overflow:hidden;background:var(--bege);
 }
 .tecnica-texto{min-width:0;}
-.tecnica-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.tecnica-img-wrap img{width:100%;height:auto;display:block;}
 .tecnica-card h3{
   font-family:'Cormorant Garamond',serif;
   font-size:clamp(1.35rem,2.6vw,1.7rem);font-weight:400;
@@ -336,7 +332,7 @@ header{
 }
 @media(max-width:700px){
   .tecnica-card{grid-template-columns:1fr;gap:20px;}
-  .tecnica-img-wrap{max-width:100%;aspect-ratio:16/9;}
+  .tecnica-img-wrap{max-width:420px;}
 }
 
 
@@ -742,7 +738,8 @@ body.edit-mode .add-blog-btn{display:block;}
     <div class="sobre-grid">
       <!-- Foto -->
       <div class="sobre-foto-wrap">
-        <div class="sobre-foto" style="min-height:420px;"></div>
+        <img class="sobre-foto" src="foto-juliana.jpg" alt="Juliana Guidugli"
+             onerror="if(!this.dataset.r){this.dataset.r=1;this.src='foto-juliana.jpeg';}else{this.style.display='none';}">
         <div class="sobre-foto-frame"></div>
       </div>
       <!-- Texto + Tabs -->
@@ -1250,28 +1247,61 @@ function parseFrontmatter(text) {
   return fm;
 }
 
-// Carrega arquivos de uma pasta do GitHub
+// Carrega arquivos de uma pasta do GitHub, com cache local.
+// A API publica do GitHub permite 60 requisicoes por hora por IP.
+// O cache evita gastar esse limite a cada visita, e serve de rede de
+// seguranca: se a API falhar, reaproveitamos a ultima copia conhecida.
+const CACHE_HORAS = 6;
+
+function lerCache(folder) {
+  try {
+    const raw = localStorage.getItem('jg-cache-' + folder);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch(e) { return null; }
+}
+
+function gravarCache(folder, items) {
+  try {
+    localStorage.setItem('jg-cache-' + folder,
+      JSON.stringify({ ts: Date.now(), items }));
+  } catch(e) { /* localStorage cheio ou bloqueado */ }
+}
+
 async function loadFolder(folder) {
+  const cache = lerCache(folder);
+  const fresco = cache && (Date.now() - cache.ts) < CACHE_HORAS * 3600 * 1000;
+  if (fresco) return cache.items;
+
   try {
     const res = await fetch(API + folder);
-    if (!res.ok) return [];
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const files = await res.json();
+    if (!Array.isArray(files)) throw new Error('resposta inesperada');
     const mdFiles = files.filter(f => f.name.endsWith('.md'));
+    // download_url aponta para raw.githubusercontent, que nao consome
+    // a cota da API — so a listagem acima conta.
     const items = await Promise.all(mdFiles.map(async f => {
       const r = await fetch(f.download_url);
-      const text = await r.text();
-      return parseFrontmatter(text);
+      return parseFrontmatter(await r.text());
     }));
+    gravarCache(folder, items);
     return items;
   } catch(e) {
-    console.warn('Erro ao carregar ' + folder, e);
-    return [];
+    console.warn('Falha ao carregar ' + folder + ':', e.message);
+    // Preferimos conteudo velho a secao vazia.
+    if (cache) return cache.items;
+    return null; // null = falha real, diferente de pasta vazia
   }
 }
 
 // Renderiza cards do blog
 function renderBlogCards(items) {
   const grid = document.getElementById('blogGrid');
+  if (items === null) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--texto-suave);font-size:.9rem;">Não foi possível carregar os textos agora. Você pode acompanhá-los no <a href="https://www.instagram.com/pausaseprosasjunguianas/" target="_blank" style="color:var(--verde);text-decoration:underline;">Instagram</a>.</div>';
+    return;
+  }
   if (!items.length) {
     grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--texto-suave);font-size:.9rem;">Nenhum texto publicado ainda.</div>';
     return;
@@ -1304,8 +1334,12 @@ function renderBlogCards(items) {
 // Renderiza cards de referência
 function renderRefCards(items) {
   const grid = document.getElementById('refGrid');
+  if (items === null) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--texto-suave);font-size:.9rem;">Não foi possível carregar as publicações agora.</div>';
+    return;
+  }
   if (!items.length) {
-    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--texto-suave);font-size:.9rem;">Nenhuma referência publicada ainda.</div>';
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--texto-suave);font-size:.9rem;">Nenhuma publicação ainda.</div>';
     return;
   }
   grid.innerHTML = '';
