@@ -258,36 +258,12 @@ header{
 .clinica-inner{max-width:900px;margin:0 auto;}
 .clinica .section-eyebrow{color:var(--terra-claro);}
 .clinica .section-title{color:white;}
-.clinica-body{
-  display:grid;grid-template-columns:1fr 1fr;gap:48px;
-}
-@media(max-width:768px){.clinica-body{grid-template-columns:1fr;}}
+.clinica-body{max-width:820px;}
 .clinica-p{
   font-size:clamp(.88rem,1.8vw,.97rem);line-height:1.9;
   color:rgba(255,255,255,.82);font-weight:300;margin-bottom:18px;
 }
-.clinica-quote{
-  border-left:2px solid var(--terra-claro);
-  padding:20px 28px;
-}
-.clinica-quote blockquote{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.1rem,2.5vw,1.45rem);font-style:italic;
-  color:white;line-height:1.5;margin-bottom:10px;
-}
-.clinica-quote cite{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);font-style:normal;}
 
-.clinica-indicacoes{margin-top:48px;padding-top:40px;border-top:1px solid rgba(255,255,255,.15);}
-.clinica-indicacoes h3{
-  font-family:'Cormorant Garamond',serif;font-size:1.5rem;
-  font-weight:400;color:white;margin-bottom:20px;
-}
-.indicacoes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
-.indicacao-tag{
-  padding:8px 16px;border:1px solid rgba(255,255,255,.2);
-  font-size:.78rem;color:rgba(255,255,255,.7);font-family:'Lato',sans-serif;
-  letter-spacing:.05em;border-radius:2px;text-align:center;
-}
 .clinica-info{
   margin-top:36px;
   font-size:.82rem;color:rgba(255,255,255,.5);font-weight:300;line-height:1.7;
@@ -304,64 +280,45 @@ header{
   color:var(--texto-suave);font-weight:300;margin-bottom:56px;
 }
 .tecnicas-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:2px;background:rgba(62,58,55,.08);
+  display:flex;flex-direction:column;gap:2px;
+  background:rgba(62,58,55,.08);
 }
-@media(max-width:768px){.tecnicas-grid{grid-template-columns:1fr;}}
-@media(min-width:769px) and (max-width:1024px){.tecnicas-grid{grid-template-columns:repeat(2,1fr);}}
 .tecnica-card{
-  background:var(--branco);padding:36px 28px;
+  background:var(--branco);
+  padding:clamp(28px,4vw,44px) clamp(24px,4vw,48px);
+  display:grid;grid-template-columns:300px 1fr;
+  gap:clamp(28px,4vw,52px);align-items:start;
   transition:all .3s;position:relative;overflow:hidden;cursor:default;
 }
 .tecnica-card::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
-  background:var(--terra);transform:scaleX(0);transition:transform .35s;transform-origin:left;
+  content:'';position:absolute;top:0;bottom:0;left:0;width:3px;
+  background:var(--terra);transform:scaleY(0);transition:transform .35s;transform-origin:top;
 }
-.tecnica-card:hover::after{transform:scaleX(1);}
-.tecnica-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(62,58,55,.1);}
+.tecnica-card:hover::after{transform:scaleY(1);}
+.tecnica-card:hover{background:#FFFDFA;}
 .tecnica-img-wrap{
-  width:80px;height:80px;border-radius:4px;
-  overflow:hidden;margin-bottom:20px;background:var(--bege);
+  width:100%;aspect-ratio:4/3;border-radius:4px;
+  overflow:hidden;background:var(--bege);
 }
+.tecnica-texto{min-width:0;}
 .tecnica-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
 .tecnica-card h3{
   font-family:'Cormorant Garamond',serif;
-  font-size:1.25rem;font-weight:400;color:var(--marrom);margin-bottom:10px;
+  font-size:clamp(1.35rem,2.6vw,1.7rem);font-weight:400;
+  color:var(--marrom);margin-bottom:14px;line-height:1.2;
 }
-.tecnica-card p{font-size:.84rem;line-height:1.8;color:var(--texto-suave);font-weight:300;}
+.tecnica-card p{
+  font-size:clamp(.88rem,1.7vw,.95rem);line-height:1.85;
+  color:var(--texto-suave);font-weight:300;max-width:70ch;
+}
+@media(max-width:900px){
+  .tecnica-card{grid-template-columns:240px 1fr;gap:28px;}
+}
+@media(max-width:700px){
+  .tecnica-card{grid-template-columns:1fr;gap:20px;}
+  .tecnica-img-wrap{max-width:100%;aspect-ratio:16/9;}
+}
 
-/* ────────────────────────────────
-   ABORDAGEM CORPORAL
-──────────────────────────────── */
-.corporal{
-  background:var(--marrom);color:white;
-  padding:clamp(64px,10vw,110px) 5vw;
-}
-.corporal-inner{max-width:1100px;margin:0 auto;
-  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
-@media(max-width:768px){.corporal-inner{grid-template-columns:1fr;gap:40px;}}
-.corporal .section-eyebrow{color:var(--terra-claro);}
-.corporal .section-title{color:white;}
-.corporal-p{
-  font-size:clamp(.88rem,1.8vw,.97rem);line-height:1.9;
-  color:rgba(255,255,255,.78);font-weight:300;margin-bottom:18px;
-}
-.corporal-visual{
-  aspect-ratio:1;background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.12);
-  display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;
-}
-.corporal-visual img{
-  width:100%;height:100%;object-fit:cover;
-  background-image:url('foto-corporal.jpg');
-}
-.corporal-visual-placeholder{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1rem;color:rgba(255,255,255,.25);text-align:center;padding:32px;
-  font-style:italic;
-}
 
 /* ────────────────────────────────
    PAUSAS & PROSAS
@@ -620,6 +577,7 @@ body.edit-mode .add-blog-btn{display:block;}
   display: none; position: fixed; inset: 0; z-index: 998;
 }
 .nav-overlay.open { display: block; }
+
 </style>
 </head>
 <body>
@@ -679,10 +637,9 @@ body.edit-mode .add-blog-btn{display:block;}
 <nav class="nav-menu" id="navMenu">
   <a href="#sobre" onclick="closeMenu()"><span class="nav-dot"></span>Sobre Mim</a>
   <a href="#clinica" onclick="closeMenu()"><span class="nav-dot"></span>A Clínica Junguiana</a>
-  <a href="#tecnicas" onclick="closeMenu()"><span class="nav-dot"></span>Técnicas Expressivas</a>
-  <a href="#corporal" onclick="closeMenu()"><span class="nav-dot"></span>Abordagem Corporal</a>
+  <a href="#tecnicas" onclick="closeMenu()"><span class="nav-dot"></span>As Técnicas Expressivas</a>
   <a href="#pausas" onclick="closeMenu()"><span class="nav-dot"></span>Pausas & Prosas</a>
-  <a href="#cursos" onclick="closeMenu()"><span class="nav-dot"></span>Cursos & Referências</a>
+  <a href="#cursos" onclick="closeMenu()"><span class="nav-dot"></span>Cursos e Publicações</a>
 </nav>
 
 <!-- ── HERO / SLIDER ── -->
@@ -697,8 +654,8 @@ body.edit-mode .add-blog-btn{display:block;}
         <div class="slide-content">
           <span class="slide-eyebrow">Sobre Mim</span>
           <h2>Experiência clínica e atendimento humanizado</h2>
-          <p>Psicóloga junguiana com mais de 20 anos de experiência na atenção à saúde no setor público e privado. Formada pela PUC-SP, especialista em Psicoterapia Analítica e Abordagem Corporal pelo Instituto Sedes Sapientiae e em Farmacodependências pela UNIFESP. Atualmente, integro o Núcleo de Estudos de Sandplay e Técnicas Expressivas da Sociedade Brasileira de Psicologia Analítica (SBPA).</p>
-          <a href="#sobre" class="slide-cta">Conhecer minha história <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <p>Psicóloga junguiana com mais de 20 anos de experiência na atenção à saúde, formada pela PUC-SP e especialista em Psicoterapia Analítica, Abordagem Corporal e Farmacodependências. Atualmente, integra o Núcleo de Estudos de Sandplay e Técnicas Expressivas da SBPA.</p>
+          <a href="#sobre" class="slide-cta">Conhecer a trajetória <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
@@ -708,8 +665,8 @@ body.edit-mode .add-blog-btn{display:block;}
         <div class="slide-overlay"></div>
         <div class="slide-content">
           <span class="slide-eyebrow">A Clínica Junguiana</span>
-          <h2>Uma abordagem profunda para quem quer conhecer mais sobre si mesmo.</h2>
-          <p>Esta abordagem psicológica é centrada no desenvolvimento, na regulação e na transformação da personalidade. Refletimos sobre tendências e padrões inconscientes compensatórios que se formam, gradualmente, a partir dos modelos relacionais primários.</p>
+          <h2>Uma abordagem profunda para quem quer conhecer mais sobre si mesmo</h2>
+          <p>A psicoterapia analítica é um processo dialético baseado na qualidade da relação entre paciente e terapeuta. Propõe uma jornada de autoconhecimento que integra potenciais criativos e responsabilidade pessoal.</p>
           <a href="#clinica" class="slide-cta">Entender a abordagem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
@@ -719,9 +676,9 @@ body.edit-mode .add-blog-btn{display:block;}
         <div class="slide-img"></div>
         <div class="slide-overlay"></div>
         <div class="slide-content">
-          <span class="slide-eyebrow">Técnicas Expressivas</span>
+          <span class="slide-eyebrow">As Técnicas Expressivas</span>
           <h2>A expressão criativa na clínica</h2>
-          <p>O acompanhamento do fluxo das imagens inconscientes complementa e enriquece o processo de terapia. Trabalhar com expressões criativas na clínica ajuda a liberar a força natural, instintiva e dinâmica da psique, escapando dos circuitos viciosos limitantes do ego consciente. As técnicas não verbais evocam conteúdos distantes e apartados da consciência. É preciso lembrar que nem tudo o que vivemos pode ser colocado em palavras!</p>
+          <p>A integração de recursos expressivos, artísticos e corporais permite acessar camadas da psique que a razão muitas vezes não alcança.</p>
           <a href="#tecnicas" class="slide-cta">Explorar as técnicas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
@@ -732,21 +689,9 @@ body.edit-mode .add-blog-btn{display:block;}
         <div class="slide-overlay"></div>
         <div class="slide-content">
           <span class="slide-eyebrow">Pausas & Prosas Junguianas</span>
-          <h2>Escrita com alma, emoção e humor.</h2>
-          <p>Reflexões inspiradas no nosso cotidiano e guiadas pelas emoções.</p>
-          <a href="#pausas" class="slide-cta">Ler os textos <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        </div>
-      </div>
-
-      <!-- Slide 4: Cursos & Publicações -->
-      <div class="slide slide-4">
-        <div class="slide-img"></div>
-        <div class="slide-overlay"></div>
-        <div class="slide-content">
-          <span class="slide-eyebrow">Cursos, Publicações & Referências</span>
-          <h2>O pensamento que fundamenta a prática</h2>
-          <p>Obras, autores e referências que sustentam a prática clínica — para quem deseja aprofundar-se na psicologia analítica.</p>
-          <a href="#cursos" class="slide-cta">Ver referências <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+          <h2>Escrita com alma, emoção e humor</h2>
+          <p>Reflexões inspiradas no nosso todo-santo-dia e governadas pelas emoções.</p>
+          <a href="#pausas" class="slide-cta">Acompanhar textos <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
 
@@ -760,7 +705,6 @@ body.edit-mode .add-blog-btn{display:block;}
         <button class="dot" data-index="1" aria-label="Slide 2"></button>
         <button class="dot" data-index="2" aria-label="Slide 3"></button>
         <button class="dot" data-index="3" aria-label="Slide 4"></button>
-        <button class="dot" data-index="4" aria-label="Slide 5"></button>
       </div>
       <div class="slider-arrows">
         <button class="sarrow" id="nextBtn" aria-label="Próximo">→</button>
@@ -773,32 +717,17 @@ body.edit-mode .add-blog-btn{display:block;}
 <section class="sobre anchor-target" id="sobre">
   <div class="sobre-inner">
     <span class="section-eyebrow">Sobre Mim</span>
-    <h2 class="section-title" data-editable="sobre-title" contenteditable="false">Quem sou eu</h2>
+    <h2 class="section-title" data-editable="sobre-title" contenteditable="false">Uma jornada de autoconhecimento e transformação</h2>
     <span class="section-divider"></span>
     <div class="sobre-grid">
       <!-- Foto -->
       <div class="sobre-foto-wrap">
-        <div class="sobre-foto" style="min-height:420px;" title="Substitua por: foto-juliana.jpg na mesma pasta"></div>
+        <div class="sobre-foto" style="min-height:420px;"></div>
         <div class="sobre-foto-frame"></div>
       </div>
       <!-- Texto + Tabs -->
       <div class="sobre-texto">
-        <p class="sobre-intro" data-editable="sobre-intro" contenteditable="false">Além do referencial teórico junguiano, que oferece uma compreensão sobre as trajetórias singulares de desenvolvimento, utilizo a análise de sonhos, as técnicas expressivas e a abordagem corporal como potencializadores do processo de transformação, alinhado às necessidades íntimas da alma. 
-
-Se você sente que, sem uma razão aparente, sua vida entrou em um período de estagnação?
-
-Gostaria de compreender melhor as situações que se repetem de forma sistemática no seu cotidiano? 
-
-Acredita que pode desenvolver mais os potenciais criativos e fortalecer a autenticidade? 
-
-Experimente uma jornada de autoconhecimento com a psicoterapia analítica. Nos atendimentos priorizo a escuta ativa, o respeito à natureza e a presença, numa atmosfera clínica acolhedora, livre e protegida. 
-
-Os estudos sobre a psicologia do desenvolvimento e do trauma são valiosos recursos técnico-teóricos que apoiam travessias pelas zonas fronteiriças, pelos estados transitórios e pelos momentos críticos que se apresentam de tempos em tempos em nossas vidas. 
-
-Antes de querer livrar-se rapidamente de sintomas indesejados ou de angústias que o atormentam, faço um convite para olhar mais profundamente para os símbolos que revelam pistas do inconsciente para o seu pleno desenvolvimento. Vamos entender os movimentos e ajustes necessários para o restabelecimento de uma dinâmica livre, espontânea e saudável da psique. Você não precisa atravessar este processo sozinho! 
-
-Agende uma consulta. E conheça a proposta deste trabalho.    
-</p>
+        <p class="sobre-intro" data-editable="sobre-intro" contenteditable="false">Minha prática clínica é fundamentada no acolhimento e na investigação profunda da psique. Através de um ambiente seguro e da escuta ativa, auxilio o paciente a compreender padrões repetitivos e a fortalecer sua autenticidade. Favorecendo, assim, o desenvolvimento potencial e o restabelecimento do equilíbrio na dinâmica psíquica.</p>
         <div class="tabs-nav">
           <button class="tab-btn active" data-tab="formacao">Formação</button>
           <button class="tab-btn" data-tab="experiencia">Experiência</button>
@@ -806,27 +735,27 @@ Agende uma consulta. E conheça a proposta deste trabalho.
         </div>
         <div class="tab-panel active" id="tab-formacao">
           <ul class="tab-list">
-            <li data-editable contenteditable="false">Graduação em Psicologia - PUC/SP</li>
-            <li data-editable contenteditable="false">Especialização em Farmacodependências - UNIFESP</li>
-            <li data-editable contenteditable="false">Especialização em Psicoterapia Analítica e Abordagem Corporal - SEDES SAPIENTIAE</li>
-            <li data-editable contenteditable="false">Cursos de atualização: 
-                                                            <br>- Atendimento de adolescentes e jovens na abordagem junguiana - PUC/SP; </br>
-                                                            <br>- História da Arte e Arteterapia - SEDES SAPIENTIAE; </br>
-                                                            <br>- Suicídio e Luto - SEDES SAPIENTIAE;</br>
-                                                            <br>- Núcleo de Sandplay e Técnicas Expressivas - SBPA (Sociedade Brasileira de Psicologia Analítica).</br>
-</li>
+            <li data-editable contenteditable="false">Graduação em Psicologia &mdash; PUC/SP</li>
+            <li data-editable contenteditable="false">Especialização em Farmacodependências &mdash; UNIFESP</li>
+            <li data-editable contenteditable="false">Especialização em Psicoterapia Analítica e Abordagem Corporal &mdash; Sedes Sapientiae</li>
+            <li data-editable contenteditable="false">Cursos de atualização:<br>
+              &ndash; Atendimento de adolescentes e jovens na abordagem junguiana &mdash; PUC/SP;<br>
+              &ndash; História da Arte e Arteterapia &mdash; Sedes Sapientiae;<br>
+              &ndash; Suicídio e Luto &mdash; Sedes Sapientiae;<br>
+              &ndash; Núcleo de Sandplay e Técnicas Expressivas &mdash; SBPA (Sociedade Brasileira de Psicologia Analítica).</li>
           </ul>
         </div>
         <div class="tab-panel" id="tab-experiencia">
-          <p data-editable contenteditable="false">Mais de 20 anos de prática clínica com adolescentes e adultos em consultório particular localizado na zona sul de São Paulo, no bairro de Moema.</p>
-          <p data-editable contenteditable="false">Atuação como psicóloga na rede pública de saúde (SUS) - Centro de Atenção Psicossocial (CAPS-AD) e Unidades Básicas de Saúde (UBS).</p>
-          <p data-editable contenteditable="false">Experiência no atendimento psicológico a pacientes com quadros agudos marcados pelo intenso sofrimento psíquico (depressão, ansiedade, transtornos de personalidade, compulsões, dependências, traumas, luto e tentativas de suicídio).</p>
-          <p data-editable contenteditable="false">Trabalho conjunto e colaborativo com equipes multidisciplinares.</p>
-          <p data-editable contenteditable="false">Acompanhamento e orientação familiar. </p>
+          <ul class="tab-list">
+            <li data-editable contenteditable="false">Mais de 20 anos de prática clínica com adolescentes e adultos em consultório.</li>
+            <li data-editable contenteditable="false">Atuação como psicóloga na rede pública de saúde (SUS) &mdash; Centro de Atenção Psicossocial (CAPS-AD) e Unidades Básicas de Saúde (UBS).</li>
+            <li data-editable contenteditable="false">Experiência no atendimento psicológico a pacientes com quadros agudos marcados pelo intenso sofrimento psíquico (depressão, ansiedade, transtornos de personalidade, compulsões, dependências, traumas, luto e tentativas de suicídio).</li>
+            <li data-editable contenteditable="false">Trabalho conjunto e colaborativo com equipes multidisciplinares.</li>
+            <li data-editable contenteditable="false">Orientação familiar.</li>
+          </ul>
         </div>
         <div class="tab-panel" id="tab-interesses">
-          <p data-editable contenteditable="false">Além da psicologia analítica, mantenho o interesse por outros campos de estudo. A arte, a literatura, a poesia, os mitos, os contos sagrados enriquecem a compreensão das mais diversas experiências humanas. Conto com a contribuição desses facilitadores na prática clínica, que incrementam o raciocínio clínico-analítico.</p>
-          <p data-editable contenteditable="false">Com o passar dos anos aprendi a levar cada vez mais a sério os sonhos, as sensações corporais e as emoções que estão de passagem. Mantenho a prática de estabelecer um diálogo com as breves comunicações inconscientes e os tênues fios da imaginação. Venho experimentando ampliações deste trabalho com a aquarela, o barro, o bordado, a escrita e o Sandplay em meu percurso pessoal de desenvolvimento.   </p>
+          <p data-editable contenteditable="false">Integro a psicologia analítica a outros campos de estudo como a arte, a literatura e a mitologia, que enriquecem o raciocínio clínico. Valorizo a compreensão simbólica de sonhos, sensações corporais e emoções. Esse diálogo com o inconsciente é alimentado por minhas próprias vivências pessoais criativas &mdash; da escrita ao Sandplay &mdash; buscando conectar a imaginação às necessidades para o desenvolvimento.</p>
         </div>
       </div>
     </div>
@@ -839,70 +768,22 @@ Agende uma consulta. E conheça a proposta deste trabalho.
     <span class="section-eyebrow">A Clínica Junguiana</span>
     <h2 class="section-title" data-editable="clinica-title" contenteditable="false">Quer conhecer mais sobre a psicologia analítica?</h2>
     <span class="section-divider" style="background:var(--terra-claro);"></span>
-    <p class="clinica-p" style="font-size:clamp(1rem,2vw,1.15rem);opacity:.9;margin-bottom:36px;" data-editable="clinica-sub" contenteditable="false">Uma abordagem profunda para conhecer mais aspectos sobre si mesmo.</p>
+    <p class="clinica-p" style="font-size:clamp(1rem,2vw,1.15rem);opacity:.9;margin-bottom:36px;" data-editable="clinica-sub" contenteditable="false">Uma abordagem profunda para quem quer conhecer mais sobre si mesmo.</p>
 
     <div class="clinica-body">
-      <div>
-        <p class="clinica-p" data-editable="clinica-p1" contenteditable="false">
-          A psicoterapia analítica é descrita por Carl Gustav Jung (1875 - 1961) como um "procedimento dialético", no qual dois sistemas psíquicos interagem e atuam mutuamente. Nesse sentido, o vínculo afetivo e a qualidade relacional entre paciente e terapeuta são fundamentais, sendo o alicerce para o desenvolvimento da terapia.
+      <p class="clinica-p" data-editable="clinica-p1" contenteditable="false">A psicoterapia analítica é um processo dialético baseado na qualidade da relação entre paciente e terapeuta. Propõe uma jornada de autoconhecimento que integra potenciais criativos e responsabilidade pessoal.</p>
+      <p class="clinica-p" data-editable="clinica-p2" contenteditable="false">Ao apreciar os sonhos, os símbolos e os afetos, buscamos dar forma às manifestações do mundo interno, como um despertar para a vida simbólica. O objetivo é permitir que a psique retome seu movimento natural, integrando aspectos negligenciados e promovendo uma atitude consciente diante dos próprios desejos e fantasias.</p>
 
-É preciso coragem para conhecer a si mesmo e assumir a própria maneira de ser, deixando de lado a necessidade excessiva de atender a ideais externos. Interiorizar-se e assumir a responsabilidade pessoal é um passo vital para o amadurecimento, segundo esta perspectiva.
-
-Temos, de certo modo, um chamado para desenvolver potenciais criativos que nos foram designados. Para isso, contamos com poderosos impulsos arquetípicos que intervêm, oferecendo a força necessária para romper com circuitos limitantes que impedem o pleno crescimento. Precisamos aprender a utilizar a carga dos afetos a nosso favor.
-
-Os sonhos, a imaginação, os afetos, os sintomas e todas as manifestações inconscientes oferecem pistas preciosas para o restabelecimento do equilíbrio da psique. Por meio da compreensão simbólica, podemos identificar quais aspectos de nossa personalidade necessitam de maior investimento. Mapear o que foi negligenciado ou o que permaneceu subdesenvolvido na nossa história de vida é um diferencial das psicologias profundas.
-  
-        </p>
-        <p>Destaco alguns dos norteadores que orientam a psicoterapia junguiana:</p>
-        <ul class="clinica-lista">
-          <li data-editable contenteditable="false">Dar forma visível às manifestações inconscientes;</li>
-          <li data-editable contenteditable="false">Despertar para a vida simbólica;</li>
-          <li data-editable contenteditable="false">Desenvolver uma atitude responsável com a própria natureza, afetos, desejos e fantasias;</li>
-          <li data-editable contenteditable="false">Valorizar a vida não vivida;</li>
-          <li data-editable contenteditable="false">Retomar aspectos criativos da psique e o movimento natural à vida.</li>
-      </div>
-
-      <div>
-        <div class="clinica-quote" style="margin-bottom:24px;">
-          <blockquote data-editable contenteditable="false">"O melhor que o médico pode fazer nesses casos é dispensar todo seu equipamento de métodos e teorias a confiar, velando unicamente por sua personalidade para que ela tenha firmeza suficiente para servir de ponto de referência ao paciente."</blockquote>
-          <cite>C. G. Jung, 2012, §11, p. 20</cite>
-        </div>
-        <div class="clinica-quote" style="margin-bottom:24px;">
-          <blockquote data-editable contenteditable="false">"... cada indivíduo só pode alcançar a felicidade a seu próprio modo."</blockquote>
-          <cite>C. G. Jung, OC 16/1, §42, p. 37</cite>
-        </div>
-        <div class="clinica-quote" style="margin-bottom:24px;">
-          <blockquote data-editable contenteditable="false">"As grandes decisões da vida humana estão, em regra, muito mais sujeitas aos instintos e a outros misteriosos fatores inconscientes do que à vontade consciente, ao bom-senso, por mais bem intencionados que sejam."</blockquote>
-          <cite>C. G. Jung, OC 16/1, §81, p. 53</cite>
-        </div>
-        <div class="clinica-quote" style="margin-bottom:24px;">
-          <blockquote data-editable contenteditable="false">"A perguntas como: 'Qual é seu conselho? Que devo fazer?' não sei responder, pois nem eu mesmo sei. Só sei de uma coisa: é que, quando o meu consciente encalha por não encontrar saídas viáveis, minha alma inconsciente vai reagir a essa estagnação insuportável."</blockquote>
-          <cite>C. G. Jung, OC 16/1, §84, p. 54</cite>
-        </div>
-        <div class="clinica-quote">
-          <blockquote data-editable contenteditable="false">"... nada é mais insuportável do que prolongar por muito tempo uma harmonia tépida, baseada em afetos contidos."</blockquote>
-          <cite>C. G. Jung, CW 16/1, §130, p. 71</cite>
-        </div>
-      </div>
+      <p class="clinica-p" style="margin-top:28px;" data-editable="clinica-norteadores" contenteditable="false">Destaco aqui alguns dos norteadores que orientam essa proposta:</p>
+      <ul class="clinica-lista">
+        <li data-editable contenteditable="false">Dar forma visível às manifestações inconscientes;</li>
+        <li data-editable contenteditable="false">Despertar para a vida simbólica;</li>
+        <li data-editable contenteditable="false">Desenvolver uma atitude responsável com a própria natureza, afetos, desejos e fantasias;</li>
+        <li data-editable contenteditable="false">Dar mais crédito à vida não vivida;</li>
+        <li data-editable contenteditable="false">Retomar aspectos criativos da psique e o movimento natural à vida.</li>
+      </ul>
     </div>
 
-    <div class="clinica-indicacoes">
-      <h3>A psicoterapia pode ser indicada para…</h3>
-      <div class="indicacoes-grid">
-        <div class="indicacao-tag">Autoconhecimento</div>
-        <div class="indicacao-tag">Relacionamentos</div>
-        <div class="indicacao-tag">Insegurança</div>
-        <div class="indicacao-tag">Luto</div>
-        <div class="indicacao-tag">Traumas</div>
-        <div class="indicacao-tag">Somatizações</div>
-        <div class="indicacao-tag">Depressão</div>
-        <div class="indicacao-tag">Ansiedade</div>
-        <div class="indicacao-tag">Compulsões</div>
-        <div class="indicacao-tag">Dependência</div>
-        <div class="indicacao-tag">Transtornos alimentares</div>
-        <div class="indicacao-tag">Crises existenciais</div>
-      </div>
-    </div>
     <p class="clinica-info" data-editable="clinica-info" contenteditable="false">Atendimentos online ou presencial em Moema (SP) · Sessões semanais de 50 minutos · Verifique reembolso pelo seu convênio</p>
   </div>
 </section>
@@ -910,84 +791,52 @@ Os sonhos, a imaginação, os afetos, os sintomas e todas as manifestações inc
 <!-- ── TÉCNICAS EXPRESSIVAS ── -->
 <section class="tecnicas anchor-target" id="tecnicas">
   <div class="tecnicas-inner">
-    <span class="section-eyebrow">Técnicas Expressivas</span>
+    <span class="section-eyebrow">As Técnicas Expressivas</span>
     <h2 class="section-title" data-editable="tec-title" contenteditable="false">A expressão criativa na clínica</h2>
     <span class="section-divider"></span>
-    <p class="tecnicas-intro" data-editable="tec-intro" contenteditable="false">
-        Na visão da psicologia analítica, recursos expressivos, artísticos e corporais, que consideram o movimento autônomo e autêntico da psique, podem ser úteis nas trilhas da individuação, contribuindo para novas descobertas sobre si mesmo. Como ressalta Jung: 
-
-“Muitas vezes as mãos sabem resolver enigmas que o intelecto em vão lutou por compreender”. (C. G. Jung, OC VIII/2, 2013, §180, p. 33).
-
-Os símbolos ampliam reflexões terapêuticas e favorecem o acesso às camadas mais arcaicas da psique. Com os trabalhos expressivos, nos habituamos à linguagem metafórica inconsciente e potencializamos a transformação a serviço do desenvolvimento da personalidade.
-
-Levar a sério a linguagem do mundo interior pode realmente mudar tudo!
-
-Na experiência clínica observamos que breves pausas - e o silenciamento - podem reduzir ruídos tendenciosos e parciais das tentativas de controle do ego, do intelecto e da racionalização. Favorecendo, assim, o contato com emoções e impulsos suprimidos. Experimente como essa prática pode fortalecer o vínculo e destravar processos criativos na vivência analítica. 
-
-Poder ser cada vez mais honesto consigo mesmo, e livrar-se de algumas das roupagens habituais que usamos nas representações sociais, pode ser um alívio tremendo! 
-
-No entanto, cabe reforçar que o convite gentil para as expressões criativas na clínica respeitam, acima de tudo, o tempo, o ritmo, a natureza e o desejo individual. O terapeuta, como adverte Jung, não deve impor ou querer provar seus métodos, técnicas, planos e teorias a qualquer preço, numa atitude de apego ou preciosismo. Nosso desafio clínico é estar lado a lado com o indivíduo, buscando o que funcionará melhor a cada momento ou situação.
-
-Referências:
-JUNG, Carl Gustav. A prática da psicoterapia. 16. ed. Petrópolis: Vozes, 2013. (Obras completas de C. G. Jung, v. 16/1). 
-JUNG, C. G. A Natureza da Psique. 10. ed. Petrópolis: Vozes, 2013 (Obras Completas de C. G. Jung, v. 8/2)
-
-        </p>
+    <p class="tecnicas-intro" data-editable="tec-intro" contenteditable="false">A integração de recursos expressivos, artísticos e corporais permite acessar camadas da psique que a razão muitas vezes não alcança. Ao dar espaço ao fazer criativo e ao experimentar o silenciamento em momentos propícios, reduzimos o controle do ego e permitimos que emoções e símbolos venham à tona. Nosso trabalho respeita o ritmo individual, criando um ambiente seguro onde a imaginação e a experiência corporal podem atuar como aliadas valiosas na jornada de autoconhecimento e de individuação.</p>
     <div class="tecnicas-grid">
 
       <div class="tecnica-card">
-        <div class="tecnica-img-wrap"><img src="tec-sandplay.jpg" alt="sandplay" onerror="this.style.display='none'"></div>
-        <h3 data-editable="tec-sand-title" contenteditable="false">Sandplay</h3>
-        <p data-editable="tec-sand-p" contenteditable="false">Compreendido como uma prática ritual, pode despertar diferentes sensações e emoções. Num clima terapêutico livre e protegido, cada um experimenta — à sua maneira — o brincar na areia, permitindo que a imaginação flua sem impedimentos. O que estava soterrado nos subterrâneos da psique pode emergir, de maneira semelhante ao que ocorre na expressão onírica. Na medida em que movemos a areia e escolhemos as miniaturas que ocuparão a cena, conflitos, temores, desejos e necessidades da psique podem se materializar, tornando-se visíveis e palpáveis.</p>
+        <div class="tecnica-img-wrap"><img src="tec-sandplay.jpg" alt="Sandplay" onerror="this.style.display='none'"></div>
+        <div class="tecnica-texto">
+          <h3 data-editable="tec-sand-title" contenteditable="false">Sandplay</h3>
+          <p data-editable="tec-sand-p" contenteditable="false">Desenvolvido por Dora Kalff, o Sandplay é uma técnica terapêutica não verbal que utiliza areia e miniaturas para facilitar o acesso ao inconsciente. Em uma atmosfera clínica livre e protegida, o paciente constrói cenas que refletem o mundo interior, tornando visíveis aspectos inconscientes. Sem o uso de julgamentos ou racionalizações, o trabalho foca essencialmente no curso natural das imagens. Ao final, a contemplação da cena construída ajuda a integrar vivências e a desbloquear o fluxo do desenvolvimento.</p>
+        </div>
       </div>
 
       <div class="tecnica-card">
-        <div class="tecnica-img-wrap"><img src="tec-aquarela.jpg" alt="aquarela" onerror="this.style.display='none'"></div>
-        <h3 data-editable="tec-aqua-title" contenteditable="false">Aquarela</h3>
-        <p data-editable="tec-aqua-p" contenteditable="false">A pintura em aquarela como linguagem do inconsciente: cores, formas e imagens que emergem espontaneamente, revelando aspectos da psique que resistem à verbalização.</p>
+        <div class="tecnica-img-wrap"><img src="tec-toques.jpg" alt="Toques sutis e calatonia" onerror="this.style.display='none'"></div>
+        <div class="tecnica-texto">
+          <h3 data-editable="tec-toques-title" contenteditable="false">Toques Sutis e Calatonia</h3>
+          <p data-editable="tec-toques-p" contenteditable="false">É um método corporal que aplica toques suaves para promover relaxamento profundo e reduzir o alerta e a hipervigilância. Abre espaço para o diálogo com emoções e imagens que emergem do relaxamento.</p>
+        </div>
       </div>
 
       <div class="tecnica-card">
-        <div class="tecnica-img-wrap"><img src="tec-barro.jpg" alt="barro" onerror="this.style.display='none'"></div>
-        <h3 data-editable="tec-barro-title" contenteditable="false">Barro</h3>
-        <p data-editable="tec-barro-p" contenteditable="false">O contato tátil com o barro conecta corpo e psique de forma profunda. A matéria moldada pelas mãos carrega e transforma conteúdos emocionais de maneira integradora.</p>
+        <div class="tecnica-img-wrap"><img src="tec-aquarela.jpg" alt="Expressão artística" onerror="this.style.display='none'"></div>
+        <div class="tecnica-texto">
+          <h3 data-editable="tec-arte-title" contenteditable="false">A Expressão Artística</h3>
+          <p data-editable="tec-arte-p" contenteditable="false">Na psicologia analítica, a arte atua como um catalisador de processos internos. Ao dar forma visível às imagens e emoções que residem no inconsciente, o fazer artístico permite que conflitos submersos sejam externalizados, ampliando a consciência e facilitando o diálogo entre o que vivemos internamente e o mundo externo. Seguindo os passos de C. G. Jung &mdash; que documentou seu próprio "confronto com o inconsciente" através de imagens &mdash; e de Nise da Silveira &mdash; que revolucionou a psiquiatria ao usar a arte como ferramenta de liberdade &mdash;, entendemos que a expressão artística na clínica junguiana pode despertar as propriedades autocurativas da psique num caminho de autodescoberta.</p>
+        </div>
       </div>
 
       <div class="tecnica-card">
-        <div class="tecnica-img-wrap"><img src="tec-bordado.jpg" alt="bordado" onerror="this.style.display='none'"></div>
-        <h3 data-editable="tec-bordado-title" contenteditable="false">Bordado</h3>
-        <p data-editable="tec-bordado-p" contenteditable="false">O ritmo repetitivo e meditativo do bordado favorece um estado de presença que abre caminho ao mundo interior, tornando visível o que pede passagem.</p>
+        <div class="tecnica-img-wrap"><img src="tec-sonhos.jpg" alt="Sonhos" onerror="this.style.display='none'"></div>
+        <div class="tecnica-texto">
+          <h3 data-editable="tec-sonhos-title" contenteditable="false">Sonhos</h3>
+          <p data-editable="tec-sonhos-p" contenteditable="false">Os sonhos são sementes criativas da psique. Eles utilizam símbolos para revelar o que está oculto, funcionando como bússolas para a regulação emocional e o desenvolvimento pessoal. Ao valorizar as "intimações da alma" para o crescimento, aprendemos a identificar saídas criativas singulares para nossos desafios, permitindo que a personalidade retome o seu caminho mais autêntico.</p>
+        </div>
       </div>
 
       <div class="tecnica-card">
-        <div class="tecnica-img-wrap"><img src="tec-imaginacao.jpg" alt="imaginacao" onerror="this.style.display='none'"></div>
-        <h3 data-editable="tec-imag-title" contenteditable="false">Imaginação Ativa</h3>
-        <p data-editable="tec-imag-p" contenteditable="false">Técnica junguiana por excelência: um diálogo consciente com as imagens do inconsciente — sonhos, fantasias, personagens internos — como via de amplificação e integração.</p>
+        <div class="tecnica-img-wrap"><img src="tec-contos.jpg" alt="Contos, mitos e narrativas ancestrais" onerror="this.style.display='none'"></div>
+        <div class="tecnica-texto">
+          <h3 data-editable="tec-contos-title" contenteditable="false">Contos, Mitos e Narrativas Ancestrais</h3>
+          <p data-editable="tec-contos-p" contenteditable="false">Oferecem um espelho para a jornada humana através de imagens arquetípicas. Na clínica, o uso de narrativas ajuda a dar sentido às experiências individuais, conectando o sofrimento pessoal a temas universais e ancestrais.</p>
+        </div>
       </div>
 
-      <div class="tecnica-card">
-        <div class="tecnica-img-wrap"><img src="tec-sonhos.jpg" alt="sonhos" onerror="this.style.display='none'"></div>
-        <h3 data-editable="tec-sonhos-title" contenteditable="false">Sonhos & Mitos</h3>
-        <p data-editable="tec-sonhos-p" contenteditable="false">Os sonhos, contos e mitos como mensageiros do inconsciente — não enigmas a decifrar, mas convites ao diálogo com a própria natureza mais profunda.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ── ABORDAGEM CORPORAL ── -->
-<section class="corporal anchor-target" id="corporal">
-  <div class="corporal-inner">
-    <div>
-      <span class="section-eyebrow">Abordagem Corporal</span>
-      <h2 class="section-title" data-editable="corp-title" contenteditable="false">Os toques sutis e a integração corpo-psique</h2>
-      <span class="section-divider" style="background:var(--terra-claro);"></span>
-      <p class="corporal-p" data-editable="corp-p1" contenteditable="false">A formação em Psicoterapia Analítica e Abordagem Corporal no Instituto Sedes Sapientiae integrou ao trabalho analítico a escuta do corpo como dimensão fundamental da psique.</p>
-      <p class="corporal-p" data-editable="corp-p2" contenteditable="false">O soma carrega memórias, defesas e potencial de cura. Sintomas físicos frequentemente expressam conteúdos psíquicos que ainda não encontraram forma verbal — e merecem a mesma atenção e cuidado que a vida emocional e simbólica.</p>
-      <p class="corporal-p" data-editable="corp-p3" contenteditable="false">Os toques sutis e as técnicas corporais complementam o trabalho analítico, promovendo uma integração mais plena entre o que sentimos, pensamos e vivemos.</p>
-    </div>
-    <div class="corporal-visual">
-      <img src="foto-corporal.jpg" alt="Consultório" style="width:100%;height:100%;object-fit:cover;display:block;">
     </div>
   </div>
 </section>
@@ -996,9 +845,9 @@ JUNG, C. G. A Natureza da Psique. 10. ed. Petrópolis: Vozes, 2013 (Obras Comple
 <section class="pausas anchor-target" id="pausas">
   <div class="pausas-inner">
     <span class="section-eyebrow">Pausas & Prosas Junguianas</span>
-    <h2 class="section-title" data-editable="pausas-title" contenteditable="false">Textos com alma e emoção</h2>
+    <h2 class="section-title" data-editable="pausas-title" contenteditable="false">Escrita com alma, emoção e humor</h2>
     <span class="section-divider"></span>
-    <p class="pausas-intro" data-editable="pausas-intro" contenteditable="false">Reflexões sobre psicologia junguiana, vida cotidiana, simbolismo e o processo de tornar-se quem verdadeiramente somos. Clique em qualquer texto para ler mais.</p>
+    <p class="pausas-intro" data-editable="pausas-intro" contenteditable="false">Reflexões inspiradas no nosso todo-santo-dia e governadas pelas emoções. Clique em qualquer texto para ler mais.</p>
 
     <div class="blog-grid" id="blogGrid">
       <div class="blog-loading" style="grid-column:1/-1;text-align:center;padding:40px;color:var(--texto-suave);font-size:.9rem;font-family:'Lato',sans-serif;">Carregando textos...</div>
@@ -1012,10 +861,10 @@ JUNG, C. G. A Natureza da Psique. 10. ed. Petrópolis: Vozes, 2013 (Obras Comple
 <!-- ── CURSOS, PUBLICAÇÕES & REFERÊNCIAS ── -->
 <section class="cursos anchor-target" id="cursos">
   <div class="cursos-inner">
-    <span class="section-eyebrow">Cursos, Publicações & Referências</span>
-    <h2 class="section-title" data-editable="cursos-title" contenteditable="false">O pensamento que fundamenta a prática</h2>
+    <span class="section-eyebrow">Cursos e Publicações</span>
+    <h2 class="section-title" data-editable="cursos-title" contenteditable="false">Tecendo diálogo entre as vivências da prática clínica e o pensamento teórico junguiano</h2>
     <span class="section-divider"></span>
-    <p class="cursos-intro" data-editable="cursos-intro" contenteditable="false">Obras, autores e referências que sustentam a prática clínica — para quem deseja aprofundar-se na psicologia analítica e nas abordagens expressivas.</p>
+    <p class="cursos-intro" data-editable="cursos-intro" contenteditable="false">Espaço para divulgar cursos, artigos, livros e outras publicações.</p>
     <div class="ref-grid" id="refGrid">
       <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--texto-suave);font-size:.9rem;" id="refLoading">Carregando referências...</div>
     </div>
@@ -1052,7 +901,7 @@ JUNG, C. G. A Natureza da Psique. 10. ed. Petrópolis: Vozes, 2013 (Obras Comple
 const track  = document.getElementById('sliderTrack');
 const dots   = document.querySelectorAll('.dot');
 const slides = document.querySelectorAll('.slide');
-let current = 0, total = 5, autoTimer, startX = 0;
+let current = 0, total = 4, autoTimer, startX = 0;
 
 function goTo(i) {
   slides[current].classList.remove('active');
